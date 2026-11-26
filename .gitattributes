@@ -1,0 +1,2 @@
+# Keep upstream font license files byte-for-byte.
+assets/fonts/*-LICENSE.txt -text whitespace=-trailing-space

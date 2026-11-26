@@ -1,0 +1,33 @@
+{
+  "name": "Foliofilm Studio",
+  "series": "Small experiments",
+  "description": "Measure an everyday object, then change one condition and try again.",
+  "theme": {
+    "paper": "#f7f4eb",
+    "ink": "#233941",
+    "muted": "#53696e",
+    "accent": "#ae4325",
+    "second": "#216e68",
+    "line": "#adbbb4",
+    "display": "DM Sans",
+    "sans": "DM Sans"
+  },
+  "voice": {
+    "name": "af_bella",
+    "lang": "en-us",
+    "speed": 1
+  },
+  "schedule": {
+    "start": "2026-11-26",
+    "timezone": "UTC",
+    "shortDays": [4],
+    "shortTime": "18:00",
+    "longDay": 4,
+    "longTime": "19:00",
+    "longEveryWeeks": 1,
+    "shortTarget": 1,
+    "longTarget": 0,
+    "reserveWeeks": 1
+  },
+  "modules": ["components"]
+}

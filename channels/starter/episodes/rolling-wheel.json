@@ -1,0 +1,56 @@
+{
+  "id": "rolling-wheel",
+  "title": "A wheel that prints its own ruler",
+  "format": "short",
+  "question": "Can one chalk mark tell you how far a wheel travelled?",
+  "sources": [
+    {
+      "id": "rolling-motion",
+      "title": "OpenStax · University Physics",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/11-1-rolling-motion",
+      "locator": "Volume 1, section 11.1, Figure 11.4 and equation 11.3",
+      "support": "A rigid wheel rolling without slipping advances by its radius times the angle turned in radians. One full turn is two pi radians. The distance relation depends on the contact point being instantaneously at rest relative to the floor."
+    }
+  ],
+  "shots": [
+    {
+      "id": "one-turn",
+      "heading": "Where will the chalk land?",
+      "voice": "Put a chalk dot where this wheel touches the floor. Roll the wheel one full turn without sliding. How far apart will the two prints be?",
+      "direction": "Hold the dot at the first contact. On the rolling cue carry the wheel to the right, keeping the first print fixed. Stamp the second print when the dot reaches the floor again.",
+      "component": "wheel",
+      "params": {"mode": "roll", "radiusCm": 5},
+      "refs": ["rolling-motion"],
+      "motionAt": {"sentence": 2, "edge": "start"},
+      "motion": 2.8,
+      "curve": "smooth",
+      "hold": 1.2
+    },
+    {
+      "id": "unroll-the-rim",
+      "heading": "Lay the rim flat",
+      "voice": "Imagine peeling a ribbon off the rim as the wheel rolls. The ribbon fits exactly between the prints. With a five centimetre radius, one circumference measures about thirty-one point four centimetres.",
+      "direction": "Keep the two floor marks fixed. Unwind the ribbon from its circular outline onto the baseline. The dimension follows the straightened part of the ribbon.",
+      "component": "wheel",
+      "params": {"mode": "ribbon", "radiusCm": 5},
+      "refs": ["rolling-motion"],
+      "motionAt": {"sentence": 1, "edge": "start"},
+      "motion": 3.2,
+      "curve": "linear",
+      "hold": 0.6
+    },
+    {
+      "id": "fixed-axle",
+      "heading": "Pin the axle",
+      "voice": "Now hold the axle still and spin the wheel against the floor. The dot comes around once more, but both prints land in the same place. A turn measures distance only when the rim rolls without slipping.",
+      "direction": "Lock the hub to the stand and rotate the marked rim through a full turn. Keep its contact mark stationary. Hold on the overlapping prints and zero travel.",
+      "component": "wheel",
+      "params": {"mode": "pinned", "radiusCm": 5},
+      "refs": ["rolling-motion"],
+      "motionAt": {"sentence": 1, "edge": "start"},
+      "motion": 2.8,
+      "curve": "smooth",
+      "hold": 0.8
+    }
+  ]
+}

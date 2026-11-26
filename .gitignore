@@ -1,0 +1,18 @@
+node_modules/
+.voice/
+.venv/
+.folio/
+renders/
+*.tmp
+__pycache__/
+.DS_Store
+.toolchains/
+
+# Only the instructional starter is part of this repository.
+/channels/*
+!/channels/starter/
+/my-channel/
+/takes/
+/release/
+.env
+.env.*

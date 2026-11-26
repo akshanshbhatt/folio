@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Foliofilm episode",
+  "type": "object",
+  "required": ["id","title","format","question","sources","shots"],
+  "properties": {
+    "id":{"$ref":"#/$defs/slug"},"title":{"type":"string"},"question":{"type":"string"},
+    "format":{"enum":["short","long"]},
+    "sources":{"type":"array","minItems":1,"items":{"type":"object","required":["id","title","url","locator","support"],"properties":{"id":{"$ref":"#/$defs/slug"},"url":{"type":"string","format":"uri"},"title":{"type":"string"},"locator":{"type":"string"},"support":{"type":"string"}}}},
+    "shots":{"type":"array","minItems":1,"items":{"type":"object","required":["id","heading","voice","direction","refs","component"],"properties":{
+      "id":{"$ref":"#/$defs/slug"},"heading":{"type":"string"},"voice":{"type":"string"},"spoken":{"type":"string"},"section":{"type":"string"},"direction":{"type":"string"},"refs":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/slug"}},"component":{"$ref":"#/$defs/slug"},
+      "params":{"type":"object"},"speaker":{"type":"object"},"camera":{"type":"object"},"transition":{"type":"string"},"curve":{"type":"string"},"motion":{"type":"number","minimum":0},"continuous":{"type":"boolean"},"hold":{"type":"number","minimum":0},"lead":{"type":"number","minimum":0},"motionAt":{"type":"object","required":["sentence"],"properties":{"sentence":{"type":"integer","minimum":1},"edge":{"enum":["start","end"]},"offset":{"type":"number"}}},"audioAfter":{"type":"object","required":["file","credit","rights"],"properties":{"file":{"type":"string"},"gainDb":{"type":"number"},"credit":{"type":"string"},"rights":{"type":"string"}}}
+    }}}
+  },
+  "$defs":{"slug":{"type":"string","pattern":"^[a-z0-9]+(-[a-z0-9]+)*$"}}
+}

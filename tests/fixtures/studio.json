@@ -1,0 +1,15 @@
+{
+  "name": "Test studio",
+  "series": "Experiments",
+  "modules": ["components"],
+  "theme": {
+    "paper": "#faf8f2",
+    "ink": "#252528",
+    "second": "#347269",
+    "accent": "#bb563b",
+    "line": "#959994",
+    "muted": "#5c6769",
+    "display": "DM Serif Text",
+    "sans": "DM Sans"
+  }
+}

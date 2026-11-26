@@ -1,0 +1,26 @@
+{
+  "name": "foliofilm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Compose source-traceable narrated films from editable, reusable shots.",
+  "bin": {
+    "foliofilm": "src/cli.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "studio": "node src/cli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "1.1.1",
+    "playwright-core": "1.65.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshanshbhatt/foliofilm.git"
+  }
+}
