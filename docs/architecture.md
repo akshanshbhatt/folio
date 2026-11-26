@@ -60,6 +60,10 @@ Two identical lines may serve different dramatic purposes. A missing or ambiguou
 | History investigation | Source discovery → archived evidence → competing explanations → script → map or reconstruction → fact review | Attribute a disputed date and show the document under discussion. |
 | Fictional short | Treatment → performances and storyboards in parallel → blocking → visual effects → sound mix and review | A character's reaction can begin before another stops speaking. The director chooses the overlap. |
 
+## Production across episodes
+
+A series adds a second time scale to this design. A stage can finish in one production while the character, prop or creative preference it used has a history across many releases. The proposed series design records both which version the crew used and why it applied to that scene. A producer could preview a new rig in a draft, keep the earlier edition reproducible and give a flashback the prop state appropriate to its story date. The design guide covers inherited direction, model-suggested defaults, shared assets, flexible scripts, privacy and a two-episode acceptance exercise. [Series design proposal](series/README.md)
+
 ## Product boundary
 
 Folio coordinates tools and files. Detailed editing depends on what each adapter can read and write. A workflow can call a service via a creator-configured command, which runs with the creator's permissions. The service determines its usage, credentials and cost.

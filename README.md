@@ -6,7 +6,7 @@ A project can begin with an interview recording, a history question, a storyboar
 
 ![Folio production architecture showing creator, brand, owners, handoffs, picture, sound and delivery](docs/diagrams/production.svg)
 
-[Read the architecture and an example revision](docs/architecture.md)
+[Current architecture and an example revision](docs/architecture.md) · [Design proposal for recurring series, shared assets and creative control](docs/series/README.md)
 
 ## Try a production
 
