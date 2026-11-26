@@ -8,6 +8,10 @@ A project can begin with an interview recording, a history question, a storyboar
 
 [Current architecture and an example revision](docs/architecture.md) · [Recurring series, reusable assets and shot-level creative control](docs/series/README.md)
 
+## Make your first video with an existing subscription
+
+Use ChatGPT or Claude to edit a short interview, then render the MP4, captions and cover locally. The guide includes a ready-to-send brief, browser and signed-in CLI instructions, and a prompt for creators who want their assistant to operate Folio for them. [Follow the subscription walkthrough](docs/subscriptions.md)
+
 ## Try a production
 
 From a checkout, install Node.js 22 or newer, Python 3.9 or newer and FFmpeg with `ffmpeg`, `ffprobe`, libx264 and AAC. The interview and history examples run locally with the included material.

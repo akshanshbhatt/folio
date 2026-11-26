@@ -1,5 +1,7 @@
 # Use a model for a stage or workflow design
 
+If you already pay for ChatGPT or Claude, you can use the official chat or a personally signed-in CLI to provide Folio with an edit. Start with the [subscription-to-video walkthrough](subscriptions.md). The API options below are for producers who want Folio to call a provider directly.
+
 Folio includes an optional HTTP client for Anthropic, Google and OpenAI. Choose the provider in the command and the model in the stage’s `owner.model` or the workflow designer’s `writer.model`. Running that command sends the selected prompt and material to the provider’s API and can incur charges on your account.
 
 | Command argument | API | Credential environment variable |

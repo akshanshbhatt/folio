@@ -4,6 +4,8 @@ The source is a ten-second fictional studio recording. A host asks why a guest k
 
 The included WAV and transcript come from a newly written dialogue, eSpeak NG formant voices and two synthesized impacts. The timing is measured from the assembled PCM. No speech model, online account or download is needed to cut it. The optional [fixture maker](material/make-recording.py) uses the Python package `espeakng-loader` and its eSpeak library if you want to regenerate the source.
 
+To have ChatGPT or Claude prepare the edit using your existing subscription, follow the [guided first production](../../docs/subscriptions.md). It includes a ready-to-send brief and a manual reference edit you can use for comparison.
+
 ## Make the cut
 
 From the checkout root, after `npm ci`, run these commands.
