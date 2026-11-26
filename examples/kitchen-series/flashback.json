@@ -1,0 +1,218 @@
+{
+  "id": "flashback",
+  "season": "one",
+  "releaseOrder": 3,
+  "defaults": [],
+  "scenes": [
+    {
+      "id": "yesterday",
+      "storyTime": 4,
+      "defaults": [
+        {
+          "key": "camera",
+          "value": "doorway",
+          "roles": [
+            "animator",
+            "designer"
+          ],
+          "source": "Animatic, panel one",
+          "locked": true
+        },
+        {
+          "key": "dialogue",
+          "value": "silent",
+          "roles": [
+            "mixer"
+          ],
+          "source": "Director chose room tone throughout the reaction",
+          "locked": true
+        }
+      ],
+      "shots": [
+        {
+          "id": "doorway-hold",
+          "defaults": [
+            {
+              "key": "eyebrow",
+              "value": "raised",
+              "roles": [
+                "animator",
+                "designer"
+              ],
+              "source": "Director's fixed eyebrow pose",
+              "locked": true
+            }
+          ],
+          "uses": [
+            {
+              "asset": "mug",
+              "variantFrom": "mug-state",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [
+                "handle-width",
+                "rim-angle"
+              ],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "cast",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "kitchen",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "room",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "wav",
+              "requires": [
+                "loop"
+              ],
+              "roles": [
+                "mixer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "today",
+      "storyTime": 22,
+      "defaults": [],
+      "shots": [
+        {
+          "id": "return-wide",
+          "defaults": [],
+          "uses": [
+            {
+              "asset": "mug",
+              "variantFrom": "mug-state",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [
+                "handle-width",
+                "rim-angle"
+              ],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "cast",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "kitchen",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "room",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "wav",
+              "requires": [
+                "loop"
+              ],
+              "roles": [
+                "mixer"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    "workflow-flashback.json"
+  ],
+  "beats": [
+    {
+      "id": "hook",
+      "state": "omitted",
+      "roles": [
+        "writer"
+      ],
+      "source": "Director opens on the reaction itself."
+    },
+    {
+      "id": "reaction",
+      "shot": "doorway-hold",
+      "roles": [
+        "writer",
+        "animator",
+        "mixer"
+      ],
+      "source": "Director\u2019s supplied doorway panel",
+      "fields": {
+        "durationFrames": {
+          "state": "fixed",
+          "value": 192
+        },
+        "camera": {
+          "state": "fixed",
+          "value": "doorway",
+          "roles": [
+            "animator"
+          ]
+        },
+        "eyebrow": {
+          "state": "fixed",
+          "value": "raised",
+          "roles": [
+            "animator"
+          ]
+        },
+        "dialogue": {
+          "state": "omitted",
+          "roles": [
+            "writer",
+            "mixer"
+          ]
+        },
+        "bed": {
+          "state": "fixed",
+          "value": "room",
+          "roles": [
+            "mixer"
+          ]
+        }
+      }
+    }
+  ]
+}

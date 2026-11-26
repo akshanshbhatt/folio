@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 864 240" data-episode="flashback" data-title="The day before" data-cover-shot="doorway-hold" data-cover-frame="132">
+  <style>path,ellipse,circle,rect{stroke:#384641;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}text{font:13px monospace;fill:#384641}</style>
+  <g id="doorway-hold" data-frames="192" data-acting="hold" data-camera="doorway" data-brow="raised" data-dialogue="silent">
+    <desc>Yesterday. Hold Kit's raised eyebrow from the doorway. The mug is already chipped. Use the room tone for the entire shot.</desc>
+    <rect x="11" y="12" width="411" height="182"/><path d="M18 187V21H88L67 43V183M354 19H410V185H364V39M59 143H385L375 163H65Z"/>
+    <ellipse cx="196" cy="107" rx="42" ry="36"/><circle cx="171" cy="73" r="22"/><circle cx="211" cy="70" r="18"/>
+    <path d="M193 94l14-7m-11 17l8 1m7 10q17 8 29 0m-47 21q-20 3-22 10m38-14q7 7 7 13"/>
+    <path d="M265 119q19-4 29 0l4 6 5-7 11 1-3 25q-21 7-43 0Zm48 6q19-7 12 9l-12 4"/>
+    <text x="16" y="221">01 · through the jamb · 192 frames · room</text>
+  </g>
+  <g id="return-wide" data-frames="72" data-acting="offer" data-camera="wide" data-dialogue="silent" transform="translate(430)">
+    <desc>Today. Back in the usual wide two-shot, Rue slides the repaired mug across to Kit.</desc>
+    <rect x="11" y="12" width="411" height="182"/><path d="M34 30h104v86H34ZM83 31v85M33 71h105M14 141h403v20H14Z"/>
+    <ellipse cx="157" cy="107" rx="38" ry="31"/><circle cx="137" cy="79" r="17"/><circle cx="165" cy="76" r="14"/>
+    <ellipse cx="308" cy="103" rx="40" ry="33"/><circle cx="286" cy="74" r="19"/><circle cx="323" cy="70" r="16"/>
+    <path d="M225 115q20-5 35 0l-3 27q-13 5-28 0Zm34 5q17-4 12 9l-13 3m-17-16-3 8 5 3m-36 6h-24l8-6m-8 6 9 5"/>
+    <text x="16" y="221">02 · return to wide · 72 frames</text>
+  </g>
+</svg>

@@ -1,0 +1,254 @@
+{
+  "version": 1,
+  "id": "kitchen-flashback",
+  "stages": [
+    {
+      "id": "story",
+      "purpose": "Plan and time the edit from the supplied material.",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "implementation": "direction.py",
+        "board": "editorial/flashback-board.svg"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "direction.py"
+        ]
+      },
+      "outputs": {
+        "story": {
+          "path": "story.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "flashback",
+        "role": "writer"
+      }
+    },
+    {
+      "id": "doorway-hold",
+      "purpose": "Animate this shot with its selected materials and camera.",
+      "useBrand": false,
+      "needs": [
+        "story"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "illustration": "draw.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "picture.mp4",
+        "receipt": {
+          "path": "picture.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "flashback",
+        "role": "animator",
+        "shot": "doorway-hold"
+      }
+    },
+    {
+      "id": "return-wide",
+      "purpose": "Animate this shot with its selected materials and camera.",
+      "useBrand": false,
+      "needs": [
+        "story"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "illustration": "draw.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "picture.mp4",
+        "receipt": {
+          "path": "picture.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "flashback",
+        "role": "animator",
+        "shot": "return-wide"
+      }
+    },
+    {
+      "id": "sound",
+      "purpose": "Lay the room tone and fit any supplied performance to picture.",
+      "useBrand": false,
+      "needs": [
+        "story"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "mix": "mix.wav",
+        "sheet": {
+          "path": "sound.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "flashback",
+        "role": "mixer"
+      }
+    },
+    {
+      "id": "cover",
+      "purpose": "Pull the director\u2019s selected picture from the finished shot.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "doorway-hold"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "plate": {
+          "stage": "doorway-hold",
+          "output": "plate"
+        },
+        "receipt": {
+          "stage": "doorway-hold",
+          "output": "receipt"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "cover": "cover.png"
+      }
+    },
+    {
+      "id": "cut",
+      "purpose": "Assemble the release and its editorial sidecars.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "sound",
+        "cover",
+        "doorway-hold",
+        "return-wide"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "mix": {
+          "stage": "sound",
+          "output": "mix"
+        },
+        "sheet": {
+          "stage": "sound",
+          "output": "sheet"
+        },
+        "cover": {
+          "stage": "cover",
+          "output": "cover"
+        },
+        "plate-doorway-hold": {
+          "stage": "doorway-hold",
+          "output": "plate"
+        },
+        "receipt-doorway-hold": {
+          "stage": "doorway-hold",
+          "output": "receipt"
+        },
+        "plate-return-wide": {
+          "stage": "return-wide",
+          "output": "plate"
+        },
+        "receipt-return-wide": {
+          "stage": "return-wide",
+          "output": "receipt"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "movie": "film.mp4",
+        "cover": "cover.png",
+        "captions": {
+          "path": "captions.vtt",
+          "validate": "text"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        },
+        "script": {
+          "path": "script.md",
+          "validate": "text"
+        },
+        "direction": {
+          "path": "direction.md",
+          "validate": "text"
+        }
+      }
+    }
+  ]
+}

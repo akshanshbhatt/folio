@@ -1,6 +1,6 @@
 # Series context and continuity
 
-**Design proposal.** Folio currently lets stages share a brand file, opt out of it, and consume declared inputs. Its text adapter can send selected material and an optional brand document to a chosen model. The proposed series layer would let each contributor ask *which creative decisions apply to this moment, who made them and where can I change them?* The examples below describe intended behavior. [Current workflow semantics](../workflows.md) · [Current model inputs](../models.md)
+The CLI implements scope inheritance, provenance, per-character knowledge, release-order reveals and reviewed preference proposals. The design notes below also explore delegating future policy decisions. [Context format](context-format.md) · [Preference workflow](preferences.md)
 
 ## Where a default applies
 

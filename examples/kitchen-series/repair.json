@@ -1,0 +1,223 @@
+{
+  "id": "repair",
+  "season": "one",
+  "releaseOrder": 2,
+  "defaults": [],
+  "scenes": [
+    {
+      "id": "workbench",
+      "storyTime": 10,
+      "defaults": [],
+      "shots": [
+        {
+          "id": "find-chip",
+          "defaults": [],
+          "uses": [
+            {
+              "asset": "mug",
+              "variantFrom": "mug-state",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [
+                "handle-width",
+                "rim-angle"
+              ],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "cast",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "kitchen",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "room",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "wav",
+              "requires": [
+                "loop"
+              ],
+              "roles": [
+                "mixer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mending",
+      "storyTime": 12,
+      "defaults": [
+        {
+          "key": "camera",
+          "value": "insert",
+          "roles": [
+            "animator",
+            "designer"
+          ],
+          "source": "Repair storyboard, panel two"
+        }
+      ],
+      "shots": [
+        {
+          "id": "join-rim",
+          "defaults": [],
+          "uses": [
+            {
+              "asset": "mug",
+              "variantFrom": "mug-state",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [
+                "handle-width",
+                "rim-angle"
+              ],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "cast",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "kitchen",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "room",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "wav",
+              "requires": [
+                "loop"
+              ],
+              "roles": [
+                "mixer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arrival",
+      "storyTime": 17,
+      "defaults": [],
+      "shots": [
+        {
+          "id": "rues-line",
+          "defaults": [],
+          "uses": [
+            {
+              "asset": "mug",
+              "variantFrom": "mug-state",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [
+                "handle-width",
+                "rim-angle"
+              ],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "cast",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "kitchen",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "drawing",
+              "requires": [],
+              "roles": [
+                "animator",
+                "designer"
+              ]
+            },
+            {
+              "asset": "room",
+              "variant": "standard",
+              "revision": "v1",
+              "representation": "wav",
+              "requires": [
+                "loop"
+              ],
+              "roles": [
+                "mixer"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "workflows": [
+    "workflow-repair.json"
+  ],
+  "beats": [
+    {
+      "id": "payoff",
+      "shot": "rues-line",
+      "roles": [
+        "writer"
+      ],
+      "fields": {
+        "dialogue": {
+          "state": "fixed",
+          "value": "That was my good chip."
+        },
+        "coverage": {
+          "state": "open"
+        }
+      },
+      "source": "Approved performance and treatment"
+    }
+  ]
+}

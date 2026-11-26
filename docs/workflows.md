@@ -135,3 +135,7 @@ node src/cli.mjs workflow run ./interview/workflow.json --stage count
 The default state directory is under `.folio/workflows/` alongside the workflow. Folio’s Git ignore rules cover this directory. For a project outside this checkout, add `.folio/` to that project’s ignore rules. Use the same `--state DIRECTORY` on each command when keeping state elsewhere. A manifest’s absolute location and workflow ID identify its namespace.
 
 Each stage keeps versioned output files and receipts. Concurrent commands for a workflow serialize publication through a lock. `plan` and `status` can read the current state during execution. Private state contains work in progress, program logs and earlier revisions. Use `export` to give someone only the accepted files of a stage.
+
+## Use a shared series
+
+Add a `seriesContext` binding to a stage to resolve show defaults, story knowledge, script fields, board notes and asset revisions for that role. Inspect the resulting input with `workflow plan` or `series inspect`. The runner snapshots the selected files before invoking the owner. A manual stage gets the same fingerprint protection and preserves its accepted context on override. [Commands, input contract and historical receipts](series/commands.md)

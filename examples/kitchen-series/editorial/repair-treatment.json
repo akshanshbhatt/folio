@@ -1,0 +1,33 @@
+{
+  "title": "The good chip",
+  "episode": "repair",
+  "shots": [
+    {
+      "id": "find-chip",
+      "frames": 66,
+      "acting": "inspect",
+      "voice": null,
+      "direction": "Kit studies the broken edge, then lifts the loose shard from the counter."
+    },
+    {
+      "id": "join-rim",
+      "frames": 60,
+      "acting": "mend",
+      "voice": null,
+      "direction": "Match the loose shard to the rim. Hold on the little joined seam in the light."
+    },
+    {
+      "id": "rues-line",
+      "frames": 90,
+      "acting": "speak",
+      "voice": {
+        "speaker": "Rue",
+        "atFrame": 16,
+        "text": "That was my good chip."
+      },
+      "direction": "Rue looks directly at the repaired rim. Kit draws a polishing cloth out of sight."
+    }
+  ],
+  "coverShot": "join-rim",
+  "coverFrame": 51
+}

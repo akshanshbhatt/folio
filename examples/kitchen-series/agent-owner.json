@@ -1,0 +1,11 @@
+{
+  "type": "agent",
+  "model": "gemma3:4b",
+  "command": ["node", "../../tools/workflow/text-agent.mjs"],
+  "settings": {
+    "command": ["ollama", "run", "{model}"],
+    "roles": ["premise", "seriesContext"],
+    "format": "json",
+    "instruction": "Direct a short kitchen comedy from this premise and the writer's role context. Output one JSON object with episode='repair', a title, coverShot='join-rim', integer coverFrame, and three shots in the supplied episode order. For each shot give id, frames (positive integer at 24 fps), acting, direction and voice. The available acting rigs are inspect, mend, speak, hold and offer. Rue's supplied performance says exactly 'That was my good chip.' Use it once in rues-line, with voice={speaker:'Rue',text:'That was my good chip.',atFrame:16} and enough time to play 47 frames without clipping. All other shots have voice=null. Pick a frame inside join-rim for the cover. Use story-time facts and character knowledge from seriesContext. Include no Markdown."
+  }
+}

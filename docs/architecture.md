@@ -10,6 +10,10 @@ The diagram shows responsibilities. Each production defines its own graph. A sou
 
 The initial release was a shot renderer. It could draft an episode from supplied source notes, play recorded dialogue or TTS, start one motion at a measured sentence edge, use custom drawings, browser scenes or imported media, and deliver captions and source files. The earlier HyperFrames investigation exercised upstream capabilities. The initial release shipped without a general production graph or a HyperFrames adapter.
 
+## Across episodes
+
+A series manifest describes defaults, story events, reusable assets and who needs each item. A stage can bind its role to a particular episode and shot. Folio resolves the handoff, fingerprints the selected material and supplies that packet and the selected source files to the stage. An accepted revision retains the exact packet locally. A producer can trace a redesign through the registered workflows before choosing a shot to update. A pinned release records the accepted stage revisions and packages selected source material according to its redistribution settings. [Series architecture](series/README.md) · [Worked revision](series/commands.md)
+
 ## Two levels of direction
 
 **A production graph** specifies who makes each deliverable and what they need. A producer can assign research to a particular model, write the script personally, and ask a different model to review the brand. The optional model client speaks the Anthropic, Gemini and OpenAI APIs. Each stage can also call a user-supplied program. [Model configuration](models.md) Each stage hands the next one a file someone can inspect or replace. The CLI is the first client. A future board, script editor and timeline can edit the same project documents.
@@ -62,7 +66,6 @@ Two identical lines may serve different dramatic purposes. A missing or ambiguou
 
 ## Production across episodes
 
-A series adds a second time scale to this design. A stage can finish in one production while the character, prop or creative preference it used has a history across many releases. The proposed series design records both which version the crew used and why it applied to that scene. A producer could preview a new rig in a draft, keep the earlier edition reproducible and give a flashback the prop state appropriate to its story date. The design guide covers inherited direction, model-suggested defaults, shared assets, flexible scripts, privacy and a two-episode acceptance exercise. [Series design proposal](series/README.md)
 
 ## Product boundary
 

@@ -1,13 +1,15 @@
 import { spawn } from 'node:child_process';
-import { createHash, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import {
-  closeSync, constants, copyFileSync, existsSync, fstatSync, lstatSync, mkdirSync, mkdtempSync, openSync,
-  readFileSync, readSync, realpathSync, renameSync, rmSync, rmdirSync, statSync,
+  closeSync, constants, copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, openSync,
+  readFileSync, realpathSync, renameSync, rmSync, rmdirSync, statSync,
 } from 'node:fs';
-import { dirname, isAbsolute, join, relative, resolve, sep, win32 } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { hostname } from 'node:os';
 import { parseArgs } from 'node:util';
 import { digest, json, safeId, write } from './common.mjs';
+import { localPath, realFile, stamp } from './project-file.mjs';
+import { inspectSeries, validateBinding, snapshotSeriesFiles } from './series.mjs';
 import { withLock } from './integrity.mjs';
 
 const rolePattern = /^[a-z][A-Za-z0-9_-]*$/;
@@ -19,34 +21,6 @@ const need = (ok, message) => { if (!ok) throw new Error(message); };
 const readOptional = file => {
   try { return json(file); } catch (error) { if (error.code === 'ENOENT') return null; throw error; }
 };
-
-function localPath(value, label) {
-  need(typeof value === 'string' && value && !isAbsolute(value) && !win32.isAbsolute(value)
-    && !value.includes('\\') && !value.includes('\0') && value.split('/').every(part => part && part !== '.' && part !== '..'),
-  label + ' needs a relative path without traversal');
-  return value;
-}
-
-function realFile(root, relativePath) {
-  const base = realpathSync(root), name = join(base, relativePath), file = realpathSync(name);
-  const rel = relative(base, file);
-  need(rel && rel !== '..' && !rel.startsWith('..' + sep) && !isAbsolute(rel), 'File outside its directory: ' + name);
-  need(statSync(file).isFile(), 'Expected a regular file: ' + name);
-  return file;
-}
-
-function stamp(file) {
-  const hash = createHash('sha256'), buffer = Buffer.allocUnsafe(128 * 1024);
-  const fd = openSync(file, 'r');
-  try {
-    need(fstatSync(fd).isFile(), 'Expected a regular file: ' + file);
-    let size = 0, count;
-    while ((count = readSync(fd, buffer, 0, buffer.length, null)) > 0) {
-      hash.update(buffer.subarray(0, count)); size += count;
-    }
-    return { bytes: size, sha256: hash.digest('hex') };
-  } finally { closeSync(fd); }
-}
 
 function outputSpecs(id, outputs) {
   need(object(outputs) && entries(outputs).length > 0, id + ' needs at least one output');
@@ -96,6 +70,10 @@ function load(file, stateRoot) {
     need(raw.approval === undefined || typeof raw.approval === 'boolean', 'approval must be boolean for ' + id);
     need(Array.isArray(needs) && needs.every(safeId) && new Set(needs).size === needs.length, 'Invalid needs for ' + id);
     need(object(inputs), 'Invalid inputs for ' + id);
+    if (raw.seriesContext !== undefined) {
+      validateBinding(raw.seriesContext);
+      need(!own(inputs, 'seriesContext'), 'seriesContext is reserved for the resolved series input');
+    }
     for (const [role, input] of entries(inputs)) {
       need(rolePattern.test(role), 'Invalid input role: ' + role);
       if (typeof input === 'string') localPath(input, id + '.' + role);
@@ -168,18 +146,26 @@ function sample(w, ids) {
     const blockedBy = stage.needs.filter(dep => rows.get(dep).state !== 'complete');
     if (blockedBy.length) { row.state = 'blocked'; row.blockedBy = blockedBy; continue; }
     const hashes = [];
+    const useBrand = stage.useBrand ?? !stage.seriesContext;
     try {
-      if (stage.useBrand !== false && brandError) throw Error(brandError);
+      if (useBrand && brandError) throw Error(brandError);
       for (const [role, input] of entries(stage.inputs)) {
         const path = typeof input === 'string' ? realFile(w.root, input) : rows.get(input.stage).artifacts[input.output].path;
         row.inputs[role] = path;
         row.inputHashes[role] = typeof input === 'string' ? stamp(path).sha256 : rows.get(input.stage).artifacts[input.output].sha256;
         hashes.push([role, row.inputHashes[role]]);
       }
+      if (stage.seriesContext) {
+        const { file, ...selection } = stage.seriesContext;
+        const seriesFile = realFile(w.root, localPath(file, 'series manifest'));
+        row.seriesContext = inspectSeries(seriesFile, selection);
+        row.inputHashes.seriesContext = digest(row.seriesContext);
+        hashes.push(['seriesContext', row.inputHashes.seriesContext]);
+      }
     } catch (error) { row.state = 'missing-input'; row.error = error.message; continue; }
     const upstream = stage.needs.map(dep => [dep, rows.get(dep).revision, rows.get(dep).fingerprint]);
-    row.brand = stage.useBrand === false ? null : brand;
-    const brandInput = stage.useBrand === false ? null : [w.brand || null, brandHash];
+    row.brand = useBrand ? brand : null;
+    const brandInput = useBrand ? [w.brand || null, brandHash] : null;
     row.fingerprint = digest('workflow/v1', w.id, stage, brandInput, hashes, upstream);
     if (current) {
       const revision = join(folder, 'revisions', current.revision);
@@ -190,7 +176,12 @@ function sample(w, ids) {
         need(stamp(receiptFile).sha256 === current.receiptSha256, 'Revision receipt changed');
         const receipt = json(receiptFile);
         need(receipt.revision === current.revision && receipt.id === id && object(receipt.artifacts), 'Invalid revision receipt');
-        row.receipt = join(revision, 'receipt.json');
+        row.receipt = receiptFile;
+        if (receipt.seriesContext) {
+          const contextFile = realFile(revision,'series-context.json');
+          need(stamp(contextFile).sha256 === receipt.seriesContext.sha256, 'Accepted series context changed');
+          row.acceptedContext = contextFile;
+        }
         const sameInputs = receipt.fingerprint === row.fingerprint;
         const artifacts = {}, errors = [];
         for (const [role, entry] of entries(receipt.artifacts)) {
@@ -244,7 +235,13 @@ function produce(w, stage, row, paths, origin, beforeCommit) {
       const { sha256, bytes } = fileInfo(files, spec);
       artifacts[role] = { path: spec.path, sha256, bytes };
     }
-    write(join(temp, 'receipt.json'), { version: 1, id: stage.id, revision, fingerprint: row.fingerprint, origin, artifacts });
+    const receipt = {version:1, id:stage.id, revision, fingerprint:row.fingerprint, origin, artifacts};
+    if (row.seriesContext) {
+      const packet = join(temp, 'series-context.json');
+      write(packet,row.seriesContext);
+      receipt.seriesContext = stamp(packet);
+    }
+    write(join(temp, 'receipt.json'), receipt);
     const receiptSha256 = stamp(join(temp, 'receipt.json')).sha256;
     beforeCommit();
     renameSync(temp, join(revisions, revision));
@@ -304,6 +301,13 @@ async function runStage(w, stage, row, options, mode = 'run') {
     const request = { version: 1, workflow: w.id, stage: stage.id, project: w.root, brand: row.brand,
       purpose: stage.purpose ?? null, responsibility: stage.responsibility ?? null,
       inputs, outputs, model: stage.owner.model ?? null, settings: stage.owner.settings ?? {} };
+    if (stage.seriesContext) {
+      const base = dirname(realFile(w.root, stage.seriesContext.file));
+      request.seriesRoot = join(attempt, 'inputs', 'series-files');
+      snapshotSeriesFiles(row.seriesContext, base, request.seriesRoot);
+      inputs.seriesContext = join(attempt, 'inputs', 'series-context.json');
+      write(inputs.seriesContext, row.seriesContext);
+    }
     write(join(attempt, 'request.json'), request);
     await command(stage.owner.command, request, w.root, attempt);
     for (const spec of Object.values(stage.outputs)) fileInfo(files, spec);
@@ -348,6 +352,19 @@ function exportFiles(w, stage, row, destination, options) {
       try { rmdirSync(target); } catch (error) { if (!['ENOENT', 'ENOTEMPTY', 'EEXIST'].includes(error.code)) throw error; }
     }
   }
+}
+
+// Historical investigation must work after the project's current inputs change.
+export function acceptedSeriesContext(file, stateRoot, workflowId, stage) {
+  const w = load(file,stateRoot);
+  need(w.id === workflowId && safeId(stage.id) && uuidPattern.test(stage.revision),'Wrong workflow or stage revision');
+  const base = stage.id + '/revisions/' + stage.revision + '/';
+  const receipt = json(realFile(w.state,base + 'receipt.json'));
+  need(receipt.id === stage.id && receipt.revision === stage.revision && receipt.fingerprint === stage.fingerprint,
+    'Local workflow revision differs from the pinned stage');
+  const packet = realFile(w.state,base + 'series-context.json');
+  need(stamp(packet).sha256 === receipt.seriesContext?.sha256,'Historical series context changed');
+  return json(packet);
 }
 
 export async function executeWorkflow(action, file, options = {}) {

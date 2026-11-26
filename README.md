@@ -6,7 +6,7 @@ A project can begin with an interview recording, a history question, a storyboar
 
 ![Folio production architecture showing creator, brand, owners, handoffs, picture, sound and delivery](docs/diagrams/production.svg)
 
-[Current architecture and an example revision](docs/architecture.md) · [Design proposal for recurring series, shared assets and creative control](docs/series/README.md)
+[Current architecture and an example revision](docs/architecture.md) · [Recurring series, reusable assets and shot-level creative control](docs/series/README.md)
 
 ## Try a production
 
@@ -36,7 +36,8 @@ Open the movie and cover at the paths in the output. The [interview walkthrough]
 | A recorded conversation | [Edit a two-speaker session](examples/studio-session/README.md). Select by source time, retain the actual sound, commission a cover independently and deliver a reviewable cut. |
 | A script and a performance | [Direct a shot by phrase](docs/cue-direction.md). Pan to an object, zoom during the move, reveal a measurement on the next line or keyframe a custom rig property with a Bézier curve. Replacing the take retimes the picture. |
 | A 3D scene, web composition or generated clip | [Render with HyperFrames or Blender, or import media](docs/renderers.md). Two native scenes share one measured performance and export voiced cuts with captions. |
-| A series with a visual identity | [Author a channel and reusable components](docs/authoring.md), [record or synthesize narration](docs/voice.md), and [build a local viewing catalog](docs/catalog.md). |
+| Two or more episodes with shared props, voices or story history | [Run the two-episode animated pilot](examples/kitchen-series/README.md). Trace the camera, preserve a silent reaction and preview a prop redesign across working and released shots. |
+| A channel with a visual identity | [Author a channel and reusable components](docs/authoring.md), [record or synthesize narration](docs/voice.md), and [build a local viewing catalog](docs/catalog.md). |
 
 ## Who does the work?
 

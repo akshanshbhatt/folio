@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "id": "window-seat",
+  "channel": {
+    "defaults": [
+      {
+        "key": "fps",
+        "value": 24,
+        "roles": [
+          "animator",
+          "mixer",
+          "designer"
+        ],
+        "source": "Studio delivery settings"
+      }
+    ]
+  },
+  "defaults": [
+    {
+      "key": "camera",
+      "value": "wide",
+      "roles": [
+        "animator",
+        "designer"
+      ],
+      "source": "Usual window-side two-shot"
+    },
+    {
+      "key": "cadence",
+      "value": 2,
+      "roles": [
+        "animator",
+        "designer"
+      ],
+      "source": "Character poses on twos"
+    },
+    {
+      "key": "eyebrow",
+      "value": "rest",
+      "roles": [
+        "animator",
+        "designer"
+      ],
+      "source": "Kit turnaround"
+    },
+    {
+      "key": "comic-timing",
+      "value": "The pause carries the joke. Rue gets the last word.",
+      "roles": [
+        "writer"
+      ],
+      "source": "Cast rehearsal"
+    },
+    {
+      "key": "dialogue",
+      "value": "allowed",
+      "roles": [
+        "mixer"
+      ],
+      "source": "Mix notes"
+    }
+  ],
+  "seasons": {
+    "one": {
+      "defaults": [
+        {
+          "key": "season-thread",
+          "value": "Small repairs to objects and trust. Kit still has the spare key.",
+          "roles": [
+            "writer"
+          ],
+          "source": "Season one outline"
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "id": "chip",
+      "at": 1,
+      "fact": "mug-state",
+      "value": "chipped",
+      "learned": {
+        "kit": 1,
+        "rue": 1
+      },
+      "roles": [
+        "writer",
+        "animator",
+        "mixer",
+        "designer"
+      ],
+      "source": "Rue chips the rim at breakfast.",
+      "audienceAt": 1,
+      "audienceRoles": [
+        "writer"
+      ]
+    },
+    {
+      "id": "repair",
+      "at": 12,
+      "fact": "mug-state",
+      "value": "repaired",
+      "learned": {
+        "kit": 12,
+        "rue": 17
+      },
+      "roles": [
+        "writer",
+        "animator",
+        "mixer",
+        "designer"
+      ],
+      "source": "Kit fits and joins the shard before Rue returns.",
+      "audienceAt": 2,
+      "audienceRoles": [
+        "writer"
+      ]
+    }
+  ],
+  "assets": {
+    "mug": {
+      "variants": {
+        "chipped": {
+          "revisions": {
+            "v1": {
+              "representations": {
+                "drawing": {
+                  "file": "art/mug-chipped-v1.json",
+                  "controls": [
+                    "handle-width",
+                    "rim-angle"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            },
+            "v2": {
+              "representations": {
+                "drawing": {
+                  "file": "art/mug-chipped-v2.json",
+                  "controls": [
+                    "handle-width",
+                    "rim-angle"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            }
+          }
+        },
+        "repaired": {
+          "revisions": {
+            "v1": {
+              "representations": {
+                "drawing": {
+                  "file": "art/mug-repaired-v1.json",
+                  "controls": [
+                    "handle-width",
+                    "rim-angle"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            },
+            "v2": {
+              "representations": {
+                "drawing": {
+                  "file": "art/mug-repaired-v2.json",
+                  "controls": [
+                    "handle-width",
+                    "rim-angle"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cast": {
+      "variants": {
+        "standard": {
+          "revisions": {
+            "v1": {
+              "representations": {
+                "drawing": {
+                  "file": "art/cast.json",
+                  "controls": [
+                    "brow",
+                    "gaze",
+                    "reach"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "kitchen": {
+      "variants": {
+        "standard": {
+          "revisions": {
+            "v1": {
+              "representations": {
+                "drawing": {
+                  "file": "art/set.json",
+                  "controls": [
+                    "sun",
+                    "doorway"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "room": {
+      "variants": {
+        "standard": {
+          "revisions": {
+            "v1": {
+              "representations": {
+                "wav": {
+                  "file": "sound/room.wav",
+                  "controls": [
+                    "loop"
+                  ],
+                  "dependencies": [],
+                  "rights": "Original example artwork and sound for Folio.",
+                  "redistribute": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "episodes": [
+    "repair.json",
+    "flashback.json"
+  ],
+  "board": [
+    {
+      "id": "jamb-angle",
+      "roles": [
+        "animator",
+        "designer"
+      ],
+      "source": "editorial/flashback-board.svg#doorway-hold",
+      "note": "Use the jamb as a dark foreground shape framing Kit and the chipped rim.",
+      "episode": "flashback",
+      "scene": "yesterday",
+      "shot": "doorway-hold"
+    }
+  ],
+  "structures": {
+    "comedy": {
+      "beats": [
+        {
+          "id": "hook",
+          "place": "first",
+          "roles": [
+            "writer"
+          ],
+          "fields": {
+            "action": {
+              "state": "open"
+            }
+          },
+          "source": "Season pacing guide"
+        }
+      ]
+    }
+  },
+  "structure": "comedy"
+}

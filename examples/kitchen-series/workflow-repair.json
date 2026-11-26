@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "id": "kitchen-repair",
+  "stages": [
+    {
+      "id": "story",
+      "purpose": "Plan and time the edit from the supplied material.",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "implementation": "direction.py",
+        "premise": "editorial/premise.md",
+        "treatment": "editorial/repair-treatment.json"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "direction.py"
+        ]
+      },
+      "outputs": {
+        "story": {
+          "path": "story.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "repair",
+        "role": "writer"
+      }
+    },
+    {
+      "id": "performance",
+      "purpose": "Supply Rue\u2019s approved performance.",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "transcript": "sound/rue.txt"
+      },
+      "owner": {
+        "type": "manual"
+      },
+      "outputs": {
+        "take": "take.wav"
+      }
+    },
+    {
+      "id": "find-chip",
+      "purpose": "Animate this shot with its selected materials and camera.",
+      "useBrand": false,
+      "needs": [
+        "story"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "illustration": "draw.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "picture.mp4",
+        "receipt": {
+          "path": "picture.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "repair",
+        "role": "animator",
+        "shot": "find-chip"
+      }
+    },
+    {
+      "id": "join-rim",
+      "purpose": "Animate this shot with its selected materials and camera.",
+      "useBrand": false,
+      "needs": [
+        "story"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "illustration": "draw.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "picture.mp4",
+        "receipt": {
+          "path": "picture.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "repair",
+        "role": "animator",
+        "shot": "join-rim"
+      }
+    },
+    {
+      "id": "rues-line",
+      "purpose": "Animate this shot with its selected materials and camera.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "performance"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "illustration": "draw.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "take": {
+          "stage": "performance",
+          "output": "take"
+        },
+        "transcript": "sound/rue.txt"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "picture.mp4",
+        "receipt": {
+          "path": "picture.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "repair",
+        "role": "animator",
+        "shot": "rues-line"
+      }
+    },
+    {
+      "id": "sound",
+      "purpose": "Lay the room tone and fit any supplied performance to picture.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "performance"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "take": {
+          "stage": "performance",
+          "output": "take"
+        },
+        "transcript": "sound/rue.txt"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "mix": "mix.wav",
+        "sheet": {
+          "path": "sound.json",
+          "validate": "json"
+        }
+      },
+      "seriesContext": {
+        "file": "series.json",
+        "episode": "repair",
+        "role": "mixer"
+      }
+    },
+    {
+      "id": "cover",
+      "purpose": "Pull the director\u2019s selected picture from the finished shot.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "join-rim"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "plate": {
+          "stage": "join-rim",
+          "output": "plate"
+        },
+        "receipt": {
+          "stage": "join-rim",
+          "output": "receipt"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "cover": "cover.png"
+      }
+    },
+    {
+      "id": "cut",
+      "purpose": "Assemble the release and its editorial sidecars.",
+      "useBrand": false,
+      "needs": [
+        "story",
+        "sound",
+        "cover",
+        "find-chip",
+        "join-rim",
+        "rues-line"
+      ],
+      "inputs": {
+        "implementation": "produce.mjs",
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "mix": {
+          "stage": "sound",
+          "output": "mix"
+        },
+        "sheet": {
+          "stage": "sound",
+          "output": "sheet"
+        },
+        "cover": {
+          "stage": "cover",
+          "output": "cover"
+        },
+        "plate-find-chip": {
+          "stage": "find-chip",
+          "output": "plate"
+        },
+        "receipt-find-chip": {
+          "stage": "find-chip",
+          "output": "receipt"
+        },
+        "plate-join-rim": {
+          "stage": "join-rim",
+          "output": "plate"
+        },
+        "receipt-join-rim": {
+          "stage": "join-rim",
+          "output": "receipt"
+        },
+        "plate-rues-line": {
+          "stage": "rues-line",
+          "output": "plate"
+        },
+        "receipt-rues-line": {
+          "stage": "rues-line",
+          "output": "receipt"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "produce.mjs"
+        ]
+      },
+      "outputs": {
+        "movie": "film.mp4",
+        "cover": "cover.png",
+        "captions": {
+          "path": "captions.vtt",
+          "validate": "text"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        },
+        "script": {
+          "path": "script.md",
+          "validate": "text"
+        },
+        "direction": {
+          "path": "direction.md",
+          "validate": "text"
+        }
+      }
+    }
+  ]
+}

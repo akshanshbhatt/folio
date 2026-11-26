@@ -1,6 +1,6 @@
 # Scripts, performances and creative handoffs
 
-**Design proposal.** A creator should be able to start a production with whatever expresses the piece best. For a comedy that might be a premise. For a dance film it might be a rehearsal video with marks on the floor. Each handoff should tell the next person which decisions the creator has made, where there is room to invent, and what to open or play to understand the difference.
+The series CLI supports optional structures, open fields, fixed choices and deliberately omitted beats. Use the script handoff adapter to validate a proposed edit as part of a workflow. This guide gives the production rationale and examples. [Script format](script-format.md)
 
 ## Choose what leads the edit
 
@@ -31,4 +31,4 @@ The line fixes the words. A recorded take supplies their timing. The animatic fi
 - **With a mixed team.** A writer delivers dialogue, a director supplies the animatic, an agent drafts coverage and an animator supplies the finished performance. The editor can accept coverage shot by shot. A revised camera angle should reopen the affected picture and any cover drawn from it.
 - **From finished material.** A creator supplies the cut list, footage, audio, artwork and optional captions. Assembly can use source ranges, mix instructions and export settings directly. This route should run with zero model calls. The recorded-conversation example already preserves the source sound across its selected interval. [Recorded editing example](../../examples/studio-session/README.md)
 
-Today the general workflow operates on declared files, supports per-stage owners and protects human replacements. The native narrated-episode renderer has a specific shot schema. A project using another renderer can choose a different handoff. Beat-level locks, genre defaults and conflict explanations described above are proposed extensions. [Workflow ownership and review](../workflows.md) · [Native episode format](../authoring.md)
+Today the general workflow operates on declared files, supports per-stage owners and protects human replacements. The native narrated-episode renderer has a specific shot schema. A project using another renderer can choose a different handoff. The series script format layers optional beat suggestions and field-level ownership over these handoffs. [Workflow ownership and review](../workflows.md) · [Native episode format](../authoring.md)

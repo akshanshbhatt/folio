@@ -1,6 +1,6 @@
 # A series library for assets, props and motion
 
-**Design proposal.** Today a Folio workflow can pass files between stages and a channel can register reusable drawing, camera, motion and transition functions. Blender, HTML and imported footage each have their own rendering capabilities. This proposal adds a series library in which an artist could find the same prop across episodes, see which version appeared in a shot and bring its editable sources back into the tool that made it. [Channel authoring](../authoring.md) · [Renderer contracts](../renderers.md)
+A series library can register a prop or performance, resolve a representation and its controls, and pin its files with a cut. This guide also describes possible native-tool and board extensions. [Library format](library-format.md) · [Intake](intake.md)
 
 ## Give a prop a history
 

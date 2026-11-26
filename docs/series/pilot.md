@@ -1,6 +1,8 @@
 # Two episodes in the same kitchen
 
-**Proposed acceptance exercise.** The episodes below are fictional fixtures for a future series feature. The checks describe what an implementation must demonstrate. To run an existing film today, see the [history edition](../history-edition.md) or the [recorded interview](../../examples/studio-session/README.md).
+The runnable public fixture contains an original kitchen set, cast and sound, two workflow graphs and an editable animatic. It exercises a nine-second repair scene and an eleven-second flashback. Its test decodes the working films and takes a drawing revision through an actual edit. [Render the films](../../examples/kitchen-series/README.md) · [CLI and edition guide](commands.md)
+
+The sections below describe the production exercise. The example animates 2D drawings, the story adapter uses supplied local editorial material, and the editable actor handoff ships with a synthetic scratch take. The native 3D and provider-backed routes have their own examples. [Renderer adapters](../renderers.md) · [Model adapters](../models.md)
 
 ## Establish the series
 

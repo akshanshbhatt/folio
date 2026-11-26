@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "observations": [
+    {"episode":"repair","shot":"find-chip","source":"repair.json","locator":"workbench / find-chip, inherited framing","role":"animator","key":"camera","value":"wide"},
+    {"episode":"repair","shot":"join-rim","source":"repair.json","locator":"mending / camera override","role":"animator","key":"camera","value":"insert"},
+    {"episode":"repair","shot":"rues-line","source":"repair.json","locator":"arrival / rues-line, inherited framing","role":"animator","key":"camera","value":"wide"},
+    {"episode":"flashback","shot":"doorway-hold","source":"flashback.json","locator":"yesterday / camera override","role":"animator","key":"camera","value":"doorway"},
+    {"episode":"flashback","shot":"return-wide","source":"flashback.json","locator":"today / return-wide, inherited framing","role":"animator","key":"camera","value":"wide"}
+  ]
+}

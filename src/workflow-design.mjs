@@ -4,6 +4,7 @@ import {closeSync,linkSync,lstatSync,openSync,readFileSync,realpathSync,rmSync,s
 import {dirname,isAbsolute,join,relative,resolve,sep,win32} from 'node:path';
 import {parseArgs} from 'node:util';
 import {safeId} from './common.mjs';
+import {validateBinding} from './series.mjs';
 import {executeWorkflow} from './workflow.mjs';
 
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -56,7 +57,13 @@ function validateCatalog(catalog, root) {
   if (catalog.brand != null) need(Object.hasOwn(catalog.assets,catalog.brand),'Unknown catalog brand asset');
   for (const [id, op] of entries(catalog.operators)) {
     need(name(id),'Invalid operator ID: '+id);
-    fields(op,['description','owner','inputs','fixedInputs','outputs','useBrand','approval'],'operator '+id);
+    fields(op,['description','owner','inputs','fixedInputs','outputs','useBrand','approval','seriesContext'],'operator '+id);
+    if (op.seriesContext !== undefined) {
+      validateBinding(op.seriesContext);
+      checkAsset(root,op.seriesContext.file,id);
+      need(!op.inputs?.includes('seriesContext') && !Object.hasOwn(op.fixedInputs ?? {},'seriesContext'),
+        'seriesContext is supplied by the operator: '+id);
+    }
     need(text(op.description),'Describe operator '+id);
     fields(op.owner,['type','command','settings','model','version'],'owner '+id);
     need(['manual','command','agent'].includes(op.owner.type),'Invalid owner type: '+id);
@@ -140,7 +147,8 @@ function compile(plan,catalog) {
     }
     return {id:s.id,purpose:s.purpose,...(s.responsibility ? {responsibility:s.responsibility} : {}),operator:s.operator,
       needs:[...needs],inputs,outputs:op.outputs,owner:op.owner,...(op.useBrand!==undefined ? {useBrand:op.useBrand} : {}),
-      ...(op.approval!==undefined ? {approval:op.approval} : {})};
+      ...(op.approval!==undefined ? {approval:op.approval} : {}),
+      ...(op.seriesContext ? {seriesContext:op.seriesContext} : {})};
   });
   return {version:1,id:plan.id,brand:catalog.brand != null ? catalog.assets[catalog.brand] : null,stages};
 }

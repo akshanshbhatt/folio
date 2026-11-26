@@ -1,0 +1,11 @@
+{
+  "glaze": "#f2bf69",
+  "shade": "#c88b45",
+  "rim": "#ffe2a1",
+  "inside": "#ac7047",
+  "motif": "#667c74",
+  "join": "#99563e",
+  "chipped": true,
+  "handleWidth": 8,
+  "rimAngle": 8
+}
