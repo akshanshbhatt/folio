@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "id": "history-desk",
+  "brand": "brand.json",
+  "stages": [
+    {
+      "id": "evidence",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "selection": "material/selection.json",
+        "photograph": "material/photograph.txt",
+        "film": "material/viewing-copy.txt"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "../../tools/workflow/research.py",
+          "collect"
+        ]
+      },
+      "outputs": {
+        "evidence": {
+          "path": "evidence.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "claims",
+      "useBrand": false,
+      "needs": [
+        "evidence"
+      ],
+      "inputs": {
+        "implementation": "desk.py",
+        "edit": "editorial/claims.json",
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "selection": "material/selection.json"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "desk.py"
+        ]
+      },
+      "outputs": {
+        "claims": {
+          "path": "claims.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "script",
+      "useBrand": true,
+      "needs": [
+        "claims"
+      ],
+      "inputs": {
+        "implementation": "desk.py",
+        "edit": "editorial/script.json",
+        "claims": {
+          "stage": "claims",
+          "output": "claims"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "desk.py"
+        ]
+      },
+      "outputs": {
+        "script": {
+          "path": "script.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "storyboard",
+      "useBrand": true,
+      "needs": [
+        "script",
+        "claims"
+      ],
+      "inputs": {
+        "implementation": "desk.py",
+        "edit": "editorial/storyboard.json",
+        "script": {
+          "stage": "script",
+          "output": "script"
+        },
+        "claims": {
+          "stage": "claims",
+          "output": "claims"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "desk.py"
+        ]
+      },
+      "outputs": {
+        "board": {
+          "path": "board.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "review",
+      "useBrand": true,
+      "needs": [
+        "script",
+        "storyboard"
+      ],
+      "inputs": {
+        "implementation": "desk.py",
+        "edit": "editorial/brand-review.json",
+        "script": {
+          "stage": "script",
+          "output": "script"
+        },
+        "board": {
+          "stage": "storyboard",
+          "output": "board"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "desk.py"
+        ]
+      },
+      "outputs": {
+        "review": {
+          "path": "review.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "narration",
+      "useBrand": false,
+      "needs": [
+        "script"
+      ],
+      "inputs": {
+        "implementation": "edition.mjs",
+        "recording": "performance/voice.flac",
+        "markers": "performance/timing.json",
+        "script": {
+          "stage": "script",
+          "output": "script"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "edition.mjs"
+        ]
+      },
+      "outputs": {
+        "voice": "voice.flac",
+        "alignment": {
+          "path": "alignment.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "picture",
+      "useBrand": true,
+      "needs": [
+        "script",
+        "storyboard",
+        "review",
+        "narration"
+      ],
+      "inputs": {
+        "implementation": "edition.mjs",
+        "drawing": "tabletop.mjs",
+        "script": {
+          "stage": "script",
+          "output": "script"
+        },
+        "board": {
+          "stage": "storyboard",
+          "output": "board"
+        },
+        "review": {
+          "stage": "review",
+          "output": "review"
+        },
+        "alignment": {
+          "stage": "narration",
+          "output": "alignment"
+        },
+        "voice": {
+          "stage": "narration",
+          "output": "voice"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "edition.mjs"
+        ]
+      },
+      "outputs": {
+        "plate": "tabletop.mp4",
+        "cover": "cover.png",
+        "edl": {
+          "path": "edit.json",
+          "validate": "json"
+        },
+        "directions": {
+          "path": "directions.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "cut",
+      "useBrand": false,
+      "needs": [
+        "picture",
+        "narration"
+      ],
+      "inputs": {
+        "plate": {
+          "stage": "picture",
+          "output": "plate"
+        },
+        "edl": {
+          "stage": "picture",
+          "output": "edl"
+        },
+        "performance": {
+          "stage": "narration",
+          "output": "voice"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "../../tools/workflow/edit.py"
+        ]
+      },
+      "outputs": {
+        "movie": "sneeze-on-paper.mp4",
+        "captions": "captions.vtt",
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "edition",
+      "useBrand": true,
+      "needs": [
+        "claims",
+        "evidence",
+        "script",
+        "storyboard",
+        "review",
+        "narration",
+        "picture",
+        "cut"
+      ],
+      "inputs": {
+        "implementation": "edition.mjs",
+        "selection": "material/selection.json",
+        "claims": {
+          "stage": "claims",
+          "output": "claims"
+        },
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "script": {
+          "stage": "script",
+          "output": "script"
+        },
+        "board": {
+          "stage": "storyboard",
+          "output": "board"
+        },
+        "review": {
+          "stage": "review",
+          "output": "review"
+        },
+        "alignment": {
+          "stage": "narration",
+          "output": "alignment"
+        },
+        "cover": {
+          "stage": "picture",
+          "output": "cover"
+        },
+        "directions": {
+          "stage": "picture",
+          "output": "directions"
+        },
+        "edl": {
+          "stage": "picture",
+          "output": "edl"
+        },
+        "movie": {
+          "stage": "cut",
+          "output": "movie"
+        },
+        "captions": {
+          "stage": "cut",
+          "output": "captions"
+        },
+        "timeline": {
+          "stage": "cut",
+          "output": "timeline"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "node",
+          "edition.mjs"
+        ]
+      },
+      "outputs": {
+        "movie": "sneeze-on-paper.mp4",
+        "cover": "cover.png",
+        "captions": "captions.vtt",
+        "srt": "captions.srt",
+        "script": "script.md",
+        "direction": "direction.md",
+        "sources": {
+          "path": "sources.json",
+          "validate": "json"
+        }
+      }
+    }
+  ]
+}

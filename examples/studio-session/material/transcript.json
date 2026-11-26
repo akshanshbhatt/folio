@@ -1,0 +1,38 @@
+{
+  "segments": [
+    {
+      "speaker": "Host",
+      "text": "Room test.",
+      "start": 0.24998,
+      "end": 0.95029
+    },
+    {
+      "speaker": "Host",
+      "text": "What made you keep that take?",
+      "start": 1.40027,
+      "end": 2.96254
+    },
+    {
+      "speaker": "Guest",
+      "text": "Listen to the space after the knock.",
+      "start": 3.26254,
+      "end": 5.03374
+    },
+    {
+      "speaker": "Guest",
+      "text": "You can hear the room answer.",
+      "start": 7.11374,
+      "end": 8.51533
+    },
+    {
+      "speaker": "Host",
+      "text": "Let's reset.",
+      "start": 8.91533,
+      "end": 9.72481
+    }
+  ],
+  "marks": {
+    "firstKnock": 5.23374,
+    "secondKnock": 6.01374
+  }
+}

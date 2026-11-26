@@ -1,0 +1,9 @@
+{
+  "title":"How long is one sneeze on paper?",
+  "beats":[
+    {"id":"count","voice":"How long does a sneeze last on paper? The Library of Congress identifies forty-five frames of Fred Ott sneezing in a single photographic record.","claims":["sequence"]},
+    {"id":"recover","voice":"In the Library’s moving-image catalog, the account of the viewing copy describes photographing the still image again. That explains how a sequence on a page can become movement on a screen.","claims":["rephotography"]},
+    {"id":"clocks","voice":"Let’s give our drawing two clocks. Show every one of forty-five numbered cards for a fifteenth of a second, and the set lasts three seconds. At thirty cards a second, exactly the same set lasts one and a half.","claims":["sequence"],"construction":"Each of 45 drawn cards occupies one complete display interval. The two frame rates are chosen for this demonstration."},
+    {"id":"limit","voice":"Which clock should we set for Ott? These two catalog passages give us the pictures and a way to see them move. They leave the speed of our reconstruction open.","claims":["sequence","rephotography"]}
+  ]
+}

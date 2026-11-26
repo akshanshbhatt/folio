@@ -1,0 +1,7 @@
+{
+  "name": "Listening Session",
+  "background": "#171629",
+  "waveform": "#c1acff",
+  "focus": "#ffcc73",
+  "rules": ["Represent the selected audio with its measured waveform.", "Keep the guest's pauses and the two original knocks.", "Use a waveform crop from this recording for the cover."]
+}

@@ -1,0 +1,25 @@
+digraph Foliofilm {
+  graph [rankdir=TB, bgcolor="#f8fafb", pad=".36", nodesep=".24", ranksep=".38", fontname="Helvetica", splines=polyline];
+  node [shape=box, style="rounded,filled", color="#b7c4cf", fillcolor="#ffffff", fontcolor="#192f3c", fontname="Helvetica", fontsize=14, margin=".20,.14"];
+  edge [arrowsize=.65, color="#596e7a", penwidth=1.3];
+
+  creator [label="Creator's brief\nAn idea, recording, script or rough cut", fillcolor="#dfedff"];
+  brand [label="Brand and constraints\nVoice, visual identity, rights, audience"];
+  plan [label="Editable production graph\nDesign the stages, owners, dependencies and review gates", fillcolor="#e2eafb"];
+  manual [label="Person\nSupply or revise an artifact"];
+  agent [label="Agent\nChoose a model and instructions"];
+  tool [label="Tool\nRun a command or service"];
+  desk [label="Production handoffs\nResearch and claims  ·  Story and selects  ·  Script and direction", fillcolor="#e2f1ed"];
+  timing [label="Performance cues\nA word or time mark drives an action"];
+  edit [label="Footage and sound\nOriginal takes, edits, mix and captions"];
+  package [label="Art and packaging\nCover brief, artwork and credits"];
+  picture [label="Scene production\nNative animation, HTML, HyperFrames,\nBlender or a supplied clip"];
+  delivery [label="Review and delivery\nAccept a revision, return it for changes or export the film and sources", fillcolor="#d6eae1"];
+
+  {rank=same; creator;brand} creator -> plan; brand -> plan;
+  {rank=same; manual;agent;tool} plan -> manual; plan -> agent; plan -> tool;
+  manual -> desk; agent -> desk; tool -> desk;
+  desk -> timing; desk -> edit; desk -> package;
+  {rank=same; timing;edit;package} timing -> picture;
+  picture -> delivery; edit -> delivery; package -> delivery;
+}

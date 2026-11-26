@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "brand": "brand",
+  "assets": {
+    "brand": "brand.json",
+    "selected-sources": "material/selected-sources.json",
+    "field-notes": "material/field-notes.txt",
+    "transcript": "material/transcript.json",
+    "source-recording": "material/interview.wav",
+    "direction-implementation": "direct.py",
+    "review-implementation": "review.py"
+  },
+  "operators": {
+    "passage-reader": {
+      "description": "Find the selected passages in a text source and retain their provenance.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/research.py",
+          "collect"
+        ],
+        "version": "1"
+      },
+      "inputs": [
+        "selection",
+        "notes"
+      ],
+      "outputs": {
+        "evidence": {
+          "path": "evidence.json",
+          "validate": "json"
+        }
+      },
+      "useBrand": false
+    },
+    "story-editor": {
+      "description": "Accept an editor’s chosen beats from a transcript and evidence.",
+      "owner": {
+        "type": "manual"
+      },
+      "inputs": [
+        "evidence",
+        "transcript"
+      ],
+      "outputs": {
+        "story": {
+          "path": "story.json",
+          "validate": "json"
+        }
+      },
+      "useBrand": false
+    },
+    "session-director": {
+      "description": "Turn this session’s story beats and transcript into source selects and a cover brief.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "direct.py"
+        ],
+        "version": "1"
+      },
+      "inputs": [
+        "evidence",
+        "story",
+        "transcript"
+      ],
+      "fixedInputs": {
+        "implementation": "direction-implementation"
+      },
+      "outputs": {
+        "edl": {
+          "path": "edit.json",
+          "validate": "json"
+        },
+        "coverBrief": {
+          "path": "cover-brief.json",
+          "validate": "json"
+        }
+      },
+      "useBrand": false
+    },
+    "sound-and-picture-editor": {
+      "description": "Cut source selects with their audio, optional waveforms, captions and a source time map.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/edit.py"
+        ],
+        "version": "1"
+      },
+      "inputs": [
+        "edl",
+        "recording"
+      ],
+      "outputs": {
+        "movie": {
+          "path": "interview.mp4",
+          "validate": "file"
+        },
+        "captions": {
+          "path": "captions.vtt",
+          "validate": "file"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        }
+      }
+    },
+    "cover-designer": {
+      "description": "Make a waveform crop or a directed frame from source media.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../tools/workflow/thumbnail.mjs"
+        ],
+        "version": "1"
+      },
+      "inputs": [
+        "brief",
+        "recording"
+      ],
+      "outputs": {
+        "cover": {
+          "path": "cover.png",
+          "validate": "file"
+        }
+      }
+    },
+    "listening-review": {
+      "description": "Compare this edit against its source and present it for approval.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "review.py"
+        ],
+        "version": "1"
+      },
+      "inputs": [
+        "movie",
+        "captions",
+        "timeline",
+        "edl",
+        "cover",
+        "recording"
+      ],
+      "fixedInputs": {
+        "implementation": "review-implementation"
+      },
+      "outputs": {
+        "review": {
+          "path": "review.json",
+          "validate": "json"
+        }
+      },
+      "approval": true
+    },
+    "delivery-editor": {
+      "description": "Archive the accepted cut with a declared set of editable source files.",
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/package.py"
+        ],
+        "version": "1",
+        "settings": {
+          "files": {
+            "movie": "cut.mp4",
+            "captions": "captions.vtt",
+            "cover": "cover.png",
+            "evidence": "project/evidence.json",
+            "direction": "project/edit.json",
+            "timeline": "timeline.json",
+            "coverBrief": "project/cover-brief.json",
+            "story": "project/story.json",
+            "review": "review.json",
+            "brand": "project/brand.json",
+            "source": "project/interview.wav",
+            "transcript": "project/transcript.json",
+            "notes": "project/field-notes.txt"
+          }
+        }
+      },
+      "inputs": [
+        "movie",
+        "captions",
+        "timeline",
+        "cover",
+        "evidence",
+        "direction",
+        "coverBrief",
+        "story",
+        "review",
+        "brand",
+        "source",
+        "transcript",
+        "notes"
+      ],
+      "outputs": {
+        "release": {
+          "path": "listening-session.zip",
+          "validate": "file"
+        }
+      }
+    }
+  }
+}

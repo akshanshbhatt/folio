@@ -1,0 +1,46 @@
+{
+  "id": "contacts",
+  "voice": "Room test.",
+  "objects": {
+    "receiver": {
+      "anchor": [
+        735,
+        410
+      ],
+      "opacity": 0
+    },
+    "slider": {
+      "anchor": [
+        500,
+        410
+      ],
+      "properties": {
+        "position": -1.38
+      }
+    }
+  },
+  "actions": [
+    {
+      "id": "pulse",
+      "type": "reveal",
+      "target": "receiver",
+      "at": {
+        "quote": "Room test."
+      },
+      "duration": 0.5,
+      "curve": "linear"
+    },
+    {
+      "id": "slide",
+      "type": "animate",
+      "target": "slider",
+      "property": "position",
+      "to": 1.38,
+      "at": {
+        "quote": "Room test."
+      },
+      "duration": 0.5,
+      "curve": "smooth"
+    }
+  ]
+}

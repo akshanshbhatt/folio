@@ -62,7 +62,7 @@ function print(ctx, theme, x) {
 }
 
 // The specimen fits one revolution into the same drawing area at any physical radius.
-export default function wheel(ctx, {p, params, theme}) {
+export default function wheel(ctx, {p, params, theme, objects, drawObject}) {
   const {mode = 'roll', radiusCm = 5} = params;
   if (!Number.isFinite(radiusCm) || radiusCm <= 0) throw Error('wheel.radiusCm must be positive');
   if (!['roll', 'ribbon', 'pinned'].includes(mode)) throw Error('Unknown wheel mode: ' + mode);
@@ -100,7 +100,11 @@ export default function wheel(ctx, {p, params, theme}) {
       segment(ctx, x, hubY - 151, x, hubY, theme.second, 8);
       segment(ctx, x - 41, hubY - 151, x + 41, hubY - 151, theme.second, 8);
       dot(ctx, x, hubY, 12, theme.second);
-      if (p === 1) dimension(ctx, theme, x, x, '0 cm');
+      if (p === 1) {
+        const dimensionAtAxle = () => dimension(ctx, theme, x, x, '0 cm');
+        if (objects?.zero) drawObject('zero',dimensionAtAxle);
+        else dimensionAtAxle();
+      }
     } else if (p === 1) {
       print(ctx, theme, x);
       dimension(ctx, theme, start, x, '?');

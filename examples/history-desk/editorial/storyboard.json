@@ -1,0 +1,8 @@
+{
+  "shots":[
+    {"beat":"count","direction":"Place 45 plain numbered tiles on a tabletop in five rows of nine. Count the last row. The layout is newly drawn for this film.","onScreen":"45 frames · diagram"},
+    {"beat":"recover","direction":"Carry a sampling window from one drawn tile to the next. Put each number into a single viewing aperture in order.","onScreen":"Rephotography · schematic"},
+    {"beat":"clocks","direction":"Run two separate, numbered sequences simultaneously. Freeze the faster one on its forty-fifth card while its neighbor continues.","onScreen":"Timing experiment","clocks":[{"cards":45,"fps":15,"durationSeconds":3},{"cards":45,"fps":30,"durationSeconds":1.5}]},
+    {"beat":"limit","direction":"Leave both clock settings visible beside the catalog identifiers. Hold on the unanswered historical interval.","onScreen":"Playback interval in the selected passages: unspecified"}
+  ]
+}

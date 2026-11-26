@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "id": "renderer-plates",
+  "stages": [
+    {
+      "id": "timing",
+      "useBrand": false,
+      "inputs": {
+        "direction": "direction.json",
+        "alignment": "alignment.json",
+        "take": "performance.wav"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../tools/workflow/cue-sheet.mjs"
+        ],
+        "version": "1",
+        "settings": {
+          "fps": 24,
+          "size": [
+            320,
+            180
+          ]
+        }
+      },
+      "outputs": {
+        "cues": {
+          "path": "timing.json",
+          "validate": "json"
+        },
+        "edl": {
+          "path": "edit.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "contacts",
+      "needs": [
+        "timing"
+      ],
+      "inputs": {
+        "composition": "pulse.html",
+        "cues": {
+          "stage": "timing",
+          "output": "cues"
+        }
+      },
+      "outputs": {
+        "video": "plates/contacts.mp4"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../adapters/visual.mjs",
+          "hyperframes"
+        ],
+        "settings": {
+          "shot": "contacts"
+        }
+      }
+    },
+    {
+      "id": "slider",
+      "needs": [
+        "timing"
+      ],
+      "inputs": {
+        "scene": "slider.py",
+        "cues": {
+          "stage": "timing",
+          "output": "cues"
+        }
+      },
+      "outputs": {
+        "video": "plates/slider.mp4"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../adapters/visual.mjs",
+          "blender"
+        ],
+        "settings": {
+          "shot": "contacts"
+        }
+      }
+    },
+    {
+      "id": "extract",
+      "needs": [
+        "contacts"
+      ],
+      "inputs": {
+        "media": {
+          "stage": "contacts",
+          "output": "video"
+        }
+      },
+      "outputs": {
+        "video": "plates/extract.mp4"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../adapters/visual.mjs",
+          "import"
+        ],
+        "settings": {
+          "start": 0.25,
+          "duration": 0.5
+        }
+      }
+    },
+    {
+      "id": "html-cut",
+      "needs": [
+        "timing",
+        "contacts"
+      ],
+      "inputs": {
+        "edl": {
+          "stage": "timing",
+          "output": "edl"
+        },
+        "plate": {
+          "stage": "contacts",
+          "output": "video"
+        },
+        "performance": "performance.wav"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/edit.py"
+        ],
+        "version": "1"
+      },
+      "outputs": {
+        "movie": {
+          "path": "html-cut.mp4"
+        },
+        "captions": {
+          "path": "captions.vtt"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "blender-cut",
+      "needs": [
+        "timing",
+        "slider"
+      ],
+      "inputs": {
+        "edl": {
+          "stage": "timing",
+          "output": "edl"
+        },
+        "plate": {
+          "stage": "slider",
+          "output": "video"
+        },
+        "performance": "performance.wav"
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/edit.py"
+        ],
+        "version": "1"
+      },
+      "outputs": {
+        "movie": {
+          "path": "blender-cut.mp4"
+        },
+        "captions": {
+          "path": "captions.vtt"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        }
+      }
+    }
+  ]
+}

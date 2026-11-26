@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "id": "listening-session",
+  "brand": "brand.json",
+  "stages": [
+    {
+      "id": "evidence",
+      "purpose": "Locate the observation that supports the two-knock listening exercise.",
+      "responsibility": "Researcher",
+      "operator": "passage-reader",
+      "needs": [],
+      "inputs": {
+        "selection": "material/selected-sources.json",
+        "notes": "material/field-notes.txt"
+      },
+      "outputs": {
+        "evidence": {
+          "path": "evidence.json",
+          "validate": "json"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/research.py",
+          "collect"
+        ],
+        "version": "1"
+      },
+      "useBrand": false
+    },
+    {
+      "id": "story",
+      "purpose": "Keep the question, the listening interval and the answer.",
+      "responsibility": "Producer",
+      "operator": "story-editor",
+      "needs": [
+        "evidence"
+      ],
+      "inputs": {
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "transcript": "material/transcript.json"
+      },
+      "outputs": {
+        "story": {
+          "path": "story.json",
+          "validate": "json"
+        }
+      },
+      "owner": {
+        "type": "manual"
+      },
+      "useBrand": false
+    },
+    {
+      "id": "direction",
+      "purpose": "Choose the original pause and direct both picture and cover around the first knock.",
+      "responsibility": "Director",
+      "operator": "session-director",
+      "needs": [
+        "evidence",
+        "story"
+      ],
+      "inputs": {
+        "implementation": "direct.py",
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "transcript": "material/transcript.json"
+      },
+      "outputs": {
+        "edl": {
+          "path": "edit.json",
+          "validate": "json"
+        },
+        "coverBrief": {
+          "path": "cover-brief.json",
+          "validate": "json"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "direct.py"
+        ],
+        "version": "1"
+      },
+      "useBrand": false
+    },
+    {
+      "id": "picture",
+      "purpose": "Let the real audio and its two transients carry the movement.",
+      "responsibility": "Editor",
+      "operator": "sound-and-picture-editor",
+      "needs": [
+        "direction"
+      ],
+      "inputs": {
+        "edl": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "recording": "material/interview.wav"
+      },
+      "outputs": {
+        "movie": {
+          "path": "interview.mp4",
+          "validate": "file"
+        },
+        "captions": {
+          "path": "captions.vtt",
+          "validate": "file"
+        },
+        "timeline": {
+          "path": "timeline.json",
+          "validate": "json"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/edit.py"
+        ],
+        "version": "1"
+      }
+    },
+    {
+      "id": "thumbnail",
+      "purpose": "Draw attention to the first knock with a crop of the recorded sound.",
+      "responsibility": "Art director",
+      "operator": "cover-designer",
+      "needs": [
+        "direction"
+      ],
+      "inputs": {
+        "brief": {
+          "stage": "direction",
+          "output": "coverBrief"
+        },
+        "recording": "material/interview.wav"
+      },
+      "outputs": {
+        "cover": {
+          "path": "cover.png",
+          "validate": "file"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "node",
+          "../../tools/workflow/thumbnail.mjs"
+        ],
+        "version": "1"
+      }
+    },
+    {
+      "id": "review",
+      "purpose": "Check the mix, time map, captions, artwork and listening interval before release.",
+      "responsibility": "Producer",
+      "operator": "listening-review",
+      "needs": [
+        "picture",
+        "direction",
+        "thumbnail"
+      ],
+      "inputs": {
+        "implementation": "review.py",
+        "movie": {
+          "stage": "picture",
+          "output": "movie"
+        },
+        "captions": {
+          "stage": "picture",
+          "output": "captions"
+        },
+        "timeline": {
+          "stage": "picture",
+          "output": "timeline"
+        },
+        "edl": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "cover": {
+          "stage": "thumbnail",
+          "output": "cover"
+        },
+        "recording": "material/interview.wav"
+      },
+      "outputs": {
+        "review": {
+          "path": "review.json",
+          "validate": "json"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "review.py"
+        ],
+        "version": "1"
+      },
+      "approval": true
+    },
+    {
+      "id": "delivery",
+      "purpose": "Give the editor the release cut and the materials needed to reopen the edit.",
+      "responsibility": "Post-production",
+      "operator": "delivery-editor",
+      "needs": [
+        "picture",
+        "thumbnail",
+        "evidence",
+        "direction",
+        "story",
+        "review"
+      ],
+      "inputs": {
+        "movie": {
+          "stage": "picture",
+          "output": "movie"
+        },
+        "captions": {
+          "stage": "picture",
+          "output": "captions"
+        },
+        "timeline": {
+          "stage": "picture",
+          "output": "timeline"
+        },
+        "cover": {
+          "stage": "thumbnail",
+          "output": "cover"
+        },
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "direction": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "coverBrief": {
+          "stage": "direction",
+          "output": "coverBrief"
+        },
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "review": {
+          "stage": "review",
+          "output": "review"
+        },
+        "brand": "brand.json",
+        "source": "material/interview.wav",
+        "transcript": "material/transcript.json",
+        "notes": "material/field-notes.txt"
+      },
+      "outputs": {
+        "release": {
+          "path": "listening-session.zip",
+          "validate": "file"
+        }
+      },
+      "owner": {
+        "type": "command",
+        "command": [
+          "python3",
+          "../../tools/workflow/package.py"
+        ],
+        "version": "1",
+        "settings": {
+          "files": {
+            "movie": "cut.mp4",
+            "captions": "captions.vtt",
+            "cover": "cover.png",
+            "evidence": "project/evidence.json",
+            "direction": "project/edit.json",
+            "timeline": "timeline.json",
+            "coverBrief": "project/cover-brief.json",
+            "story": "project/story.json",
+            "review": "review.json",
+            "brand": "project/brand.json",
+            "source": "project/interview.wav",
+            "transcript": "project/transcript.json",
+            "notes": "project/field-notes.txt"
+          }
+        }
+      }
+    }
+  ]
+}

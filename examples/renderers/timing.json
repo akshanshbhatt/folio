@@ -1,0 +1,16 @@
+{
+  "fps": 24,
+  "shots": [{
+    "id": "contacts",
+    "startFrame": 0,
+    "frames": 24,
+    "objects": {"receiver": {"opacity": 0, "anchor": [235, 90]}},
+    "actions": [{
+      "id": "pulse", "type": "reveal", "target": "receiver",
+      "at": {"mark": "pulse"}, "curve": "linear",
+      "source": {"kind": "mark", "mark": "pulse", "start": 0.25, "end": 0.45},
+      "start": 0.25, "end": 0.75, "startFrame": 6, "endFrame": 18,
+      "filmStartFrame": 6, "filmEndFrame": 18
+    }]
+  }]
+}

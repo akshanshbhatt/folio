@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {"id": "photograph", "title": "Library of Congress photographic item 2025169913", "input": "photograph", "url": "https://www.loc.gov/pictures/item/2025169913/", "rights": "Short attributed catalog excerpt. The example uses its own diagrams."},
+    {"id": "film", "title": "Library of Congress moving-image item 00694192", "input": "film", "url": "https://www.loc.gov/item/00694192/", "rights": "Short attributed catalog excerpt. The viewing copy is linked for inspection."}
+  ],
+  "claims": [
+    {"id": "sequence", "statement": "The catalog describes 45 frames depicting Fred Ott sneezing.", "references": [{"source":"photograph","quote":"45 frames for a movie showing a man, Fred Ott, sneezing","locator":"Summary, opening sentence"}]},
+    {"id": "rephotography", "statement": "The motion-picture record describes photographing the still image again to reconstruct movement.", "references": [{"source":"film","quote":"rephotographed from the still picture","locator":"Summary, final sentence, attributed to Early motion pictures"}]}
+  ],
+  "openQuestions": ["What playback interval could be defended for the 1894 exposure sequence? The selected passages give no interval."]
+}

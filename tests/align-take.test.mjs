@@ -34,6 +34,16 @@ test('continuous take import retains PCM and sentence positions and refuses conf
     assert.deepEqual(timings,[{start:.2,end:.7,text:'Read the interval.'}]);
     assert.match(run(takes).stderr,/Existing recording folder/);
 
+    const wordRows=[rows[0],rows[1],{start:1.6,end:1.72,text:'Read'},
+      {start:1.78,end:1.85,text:'the'},{start:1.91,end:2.1,text:'interval.'}];
+    writeFileSync(transcript,JSON.stringify(wordRows));
+    const wordParent=join(work,'word-takes'),wordImport=run(wordParent);
+    assert.equal(wordImport.status,0,wordImport.stderr);
+    const detailed=JSON.parse(readFileSync(join(wordParent,slug,'show.json')));
+    assert.deepEqual(detailed.spans,timings);
+    assert.deepEqual(detailed.words,[{start:.2,end:.32,text:'Read'},
+      {start:.38,end:.45,text:'the'},{start:.51,end:.7,text:'interval.'}]);
+
     rows[0].text='Draw three marks.';
     writeFileSync(transcript,JSON.stringify(rows));
     const rejected=run(join(work,'mismatch'));

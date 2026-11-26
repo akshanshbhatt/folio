@@ -1,0 +1,10 @@
+{
+  "reviewer": "Example research editor",
+  "decisions": [
+    {"claim":"sequence","decision":"accept","reason":"The photograph catalog explicitly identifies the subject and counts the frames."},
+    {"claim":"rephotography","decision":"accept","reason":"The moving-image catalog attributes this reconstruction method to Early motion pictures. Keep that attribution in narration."}
+  ],
+  "sourceRelationship":"Both entries come from the Library of Congress. They describe different objects in the same history. They do not provide two independent measurements of speed.",
+  "unresolved":"Historical playback rate for these frames.",
+  "editorialBoundary":"Two explicitly hypothetical rates can illustrate what a frame count alone determines."
+}

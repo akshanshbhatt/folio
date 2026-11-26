@@ -1,0 +1,53 @@
+{
+  "spans": [
+    {
+      "start": 0,
+      "end": 3.9019583333333334,
+      "text": "Now hold the axle still and spin the wheel against the floor."
+    },
+    {
+      "start": 4.051958333333333,
+      "end": 8.933791666666666,
+      "text": "The dot comes around once more, but both prints land in the same place."
+    },
+    {
+      "start": 9.083791666666666,
+      "end": 13.173875,
+      "text": "A turn measures distance only when the rim rolls without slipping."
+    }
+  ],
+  "words": [
+    {
+      "start": 0,
+      "end": 3.9019583333333334,
+      "text": "Now hold the axle still and spin the wheel against the floor."
+    },
+    {
+      "start": 4.051958333333333,
+      "end": 6.11625,
+      "text": "The dot comes around once more, but"
+    },
+    {
+      "start": 6.11625,
+      "end": 7.339208333333334,
+      "text": "both prints"
+    },
+    {
+      "start": 7.339208333333334,
+      "end": 8.933791666666666,
+      "text": "land in the same place."
+    },
+    {
+      "start": 9.083791666666666,
+      "end": 13.173875,
+      "text": "A turn measures distance only when the rim rolls without slipping."
+    }
+  ],
+  "marks": [
+    {
+      "id": "overlapping-prints",
+      "start": 6.11625,
+      "end": 7.339208333333334
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import {exists,inside,json,safeId} from './common.mjs';
 import {readdirSync} from 'node:fs';
 import {phrases} from './speech.mjs';
+import {validateDirection} from './cues.mjs';
 import {basename,join} from 'node:path';
 import {fontSources} from './channel-fonts.mjs';
 
@@ -37,6 +38,12 @@ export function validate(e,channel) {
     }
     if(s.audioAfter){const a=s.audioAfter;must(text(a.file) && exists(inside(channel,a.file)) && text(a.credit) && text(a.rights) && Number.isFinite(a.gainDb??0),'audioAfter needs file, credit, rights and numeric gain'+at);}
     for(const key of ['hold','motion','lead']) if(s[key] !== undefined) must(Number.isFinite(s[key]) && s[key]>=0 && s[key]<=120,'invalid '+key+at);
+    validateDirection(s);
+    if(s.component==='media') {
+      if(s.params.object !== undefined)must(Object.hasOwn(s.objects ?? {},s.params.object),'media object must be declared'+at);
+      if(s.actions?.some(a=>a.type==='reveal'))
+        must(s.actions.every(a=>a.type!=='reveal'||a.target===s.params.object),'media reveal must target the whole plate named by params.object'+at);
+    }
     if(s.motionAt !== undefined) {
       const anchor=s.motionAt;
       must(anchor && typeof anchor==='object' && Number.isInteger(anchor.sentence)

@@ -43,7 +43,16 @@
       "id": "fixed-axle",
       "heading": "Pin the axle",
       "voice": "Now hold the axle still and spin the wheel against the floor. The dot comes around once more, but both prints land in the same place. A turn measures distance only when the rim rolls without slipping.",
-      "direction": "Lock the hub to the stand and rotate the marked rim through a full turn. Keep its contact mark stationary. Hold on the overlapping prints and zero travel.",
+      "direction": "Lock the hub to the stand and rotate the marked rim through a full turn. As the narrator says both prints, reframe the lower contact and push in. Reveal the zero dimension on land in the same place.",
+      "objects": {
+        "contact": {"anchor": [500, 514]},
+        "zero": {"anchor": [500, 604], "opacity": 0}
+      },
+      "actions": [
+        {"id": "find-contact", "type": "pan", "target": "contact", "at": {"quote": "both prints"}, "duration": 0.8},
+        {"id": "closer", "type": "zoom", "scale": 1.55, "at": {"quote": "both prints"}, "duration": 1.05},
+        {"id": "read-zero", "type": "reveal", "target": "zero", "at": {"quote": "land in the same place."}, "duration": 0.45}
+      ],
       "component": "wheel",
       "params": {"mode": "pinned", "radiusCm": 5},
       "refs": ["rolling-motion"],

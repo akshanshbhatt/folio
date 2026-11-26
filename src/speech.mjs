@@ -4,7 +4,8 @@ import {once} from 'node:events';
 import {randomUUID} from 'node:crypto';
 import {mkdirSync,readFileSync,renameSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
-import {ROOT,digest,exists,ff,json} from './common.mjs';
+import {speechSegments} from './cues.mjs';
+import {ROOT,digest,exists,ff,json,safeId} from './common.mjs';
 
 export function phrases(text) {
   return [...new Intl.Segmenter('en',{granularity:'sentence'}).segment(text)].map(s=>s.segment.trim()).filter(Boolean);
@@ -27,6 +28,33 @@ export function wav(bytes,rate=24000) {
   h.writeUInt16LE(1,20);h.writeUInt16LE(1,22);h.writeUInt32LE(rate,24);h.writeUInt32LE(rate*2,28);h.writeUInt16LE(2,32);
   h.writeUInt16LE(16,34);h.write('data',36);h.writeUInt32LE(bytes.length,40);return Buffer.concat([h,bytes]);
 }
+export function validateTimings(timing, duration, name) {
+  function valid(row) {
+    return row && Number.isFinite(row.start) && Number.isFinite(row.end) &&
+      row.start >= 0 && row.end > row.start && row.end <= duration+.001;
+  }
+  if (!timing || !Array.isArray(timing.spans) || !timing.spans.length)
+    throw Error('Empty recording timings: '+name);
+  for (const key of ['spans','words']) {
+    if (key === 'words' && timing.words === undefined) continue;
+    if (!Array.isArray(timing[key]) || !timing[key].length) throw Error('Empty recording '+key+': '+name);
+    let end = 0;
+    for (const row of timing[key]) {
+      if (!valid(row) || row.start < end || typeof row.text !== 'string' || !row.text.trim())
+        throw Error('Invalid recording timings in '+key+': '+name);
+      end = row.end;
+    }
+  }
+  if (timing.marks !== undefined) {
+    if (!Array.isArray(timing.marks)) throw Error('Invalid recording marks: '+name);
+    const seen = new Set();
+    for (const row of timing.marks) {
+      if (!valid(row) || !safeId(row.id) || seen.has(row.id)) throw Error('Invalid or duplicate recording mark: '+name);
+      seen.add(row.id);
+    }
+  }
+}
+
 class Worker {
   constructor(command) {
     this.child=spawn(command[0],command.slice(1),{stdio:['pipe','pipe','inherit']});
@@ -76,28 +104,34 @@ export function voiceSession({cache,recordings,brand,workerConfig}) {
         const tmp=join(cache,randomUUID()+'.wav');
         try{ff(['-i',input,'-ac','1','-ar','24000','-c:a','pcm_s16le',tmp]);renameSync(tmp,file);}finally{rmSync(tmp,{force:true});}
       }
-      const audio=pcm(file), timing=join(base,shot.id+'.json');
-      let spans=[{start:0,end:audio.duration,text:shot.voice}];
-      if(exists(timing)){
-        spans=json(timing); let end=0;
-        if(!Array.isArray(spans)||!spans.length) throw Error('Empty recording timings: '+timing);
-        for(const s of spans){if(!Number.isFinite(s.start)||!Number.isFinite(s.end)||s.start<end||s.end<=s.start||s.end>audio.duration+.001||!s.text?.trim()) throw Error('Invalid recording timings: '+timing);end=s.end;}
-      }
-      return {bytes:audio.bytes,spans};
+      const audio=pcm(file), timingFile=join(base,shot.id+'.json');
+      if (shot.actions?.length && !exists(timingFile)) throw Error(shot.id + ': supply recorded phrase/word timings or named marks beside the WAV');
+      const timing = exists(timingFile) ? json(timingFile) : [{start:0,end:audio.duration,text:shot.voice}];
+      const measured = Array.isArray(timing) ? {spans:timing} : timing;
+      validateTimings(measured, audio.duration, timingFile);
+      return {bytes:audio.bytes, ...measured};
     }
-    const spec={...brand.voice,...shot.speaker};
-    const spoken=shot.spoken || shot.voice;
-    const parts=phrases(spoken), captions=phrases(shot.voice);
-    if(parts.length!==captions.length) throw Error('Pronunciation override needs the same number of sentences: '+shot.id);
+    const spec = {...brand.voice,...shot.speaker};
+    const captions = phrases(shot.voice), spoken = phrases(shot.spoken || shot.voice);
+    if (spoken.length !== captions.length) throw Error('Pronunciation override needs the same number of sentences: '+shot.id);
+    const groups = speechSegments(shot,captions);
     let samples=0;
-    const spans=[], buffers=[];
-    for(const [i,text] of parts.entries()){
-      if(i){const pause=Buffer.alloc(2*3600);buffers.push(pause);samples+=pause.length/2;}
-      const audio=await get(text,spec);
-      spans.push({start:samples/24000,end:(samples+audio.bytes.length/2)/24000,text:captions[i]});
-      buffers.push(audio.bytes);samples+=audio.bytes.length/2;
+    const spans=[], words=[], buffers=[];
+    for (const [i,parts] of groups.entries()) {
+      if (i) { const pause=Buffer.alloc(2*3600); buffers.push(pause); samples+=pause.length/2; }
+      const start = samples/24000;
+      for (const part of parts) {
+        if (parts.length > 1 && spoken[i] !== captions[i])
+          throw Error(shot.id + ': use a timed recording for an inside-sentence cue with a pronunciation override');
+        const audio = await get(parts.length === 1 ? spoken[i] : part,spec);
+        const partStart = samples/24000;
+        buffers.push(audio.bytes);
+        samples += audio.bytes.length/2;
+        words.push({start:partStart,end:samples/24000,text:part});
+      }
+      spans.push({start,end:samples/24000,text:captions[i]});
     }
-    return {bytes:Buffer.concat(buffers),spans};
+    return {bytes:Buffer.concat(buffers),spans,...(shot.actions?.length ? {words} : {})};
   }
   return {cue,close:()=>worker?.close()};
 }

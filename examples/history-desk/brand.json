@@ -1,0 +1,6 @@
+{
+  "name": "History Desk",
+  "viewer": "Someone who has never worked with archival film",
+  "voice": "Name the archival object before explaining what was inferred from it.",
+  "reviewChecks": ["Trace every historical sentence to a catalog passage.", "Label invented timing as an experiment.", "Use original diagrams or clear the archival image separately."]
+}

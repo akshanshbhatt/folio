@@ -1,0 +1,4 @@
+A fictional two-person sound-editing interview, performed with two eSpeak NG formant voices for this demonstration. The recording is original to this project.
+The room test and the reset are outside the conversation selected for the cut.
+Between the guest's two sentences, two synthesized knocks start 780 milliseconds apart.
+The interval between those knocks is part of the example. Preserve the original sound and the silence on either side.

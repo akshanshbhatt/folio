@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "id": "listening-session",
+  "stages": [
+    {
+      "id": "evidence",
+      "operator": "passage-reader",
+      "responsibility": "Researcher",
+      "purpose": "Locate the observation that supports the two-knock listening exercise.",
+      "bindings": {
+        "selection": {
+          "asset": "selected-sources"
+        },
+        "notes": {
+          "asset": "field-notes"
+        }
+      }
+    },
+    {
+      "id": "story",
+      "operator": "story-editor",
+      "responsibility": "Producer",
+      "purpose": "Keep the question, the listening interval and the answer.",
+      "bindings": {
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "transcript": {
+          "asset": "transcript"
+        }
+      }
+    },
+    {
+      "id": "direction",
+      "operator": "session-director",
+      "responsibility": "Director",
+      "purpose": "Choose the original pause and direct both picture and cover around the first knock.",
+      "bindings": {
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "transcript": {
+          "asset": "transcript"
+        }
+      }
+    },
+    {
+      "id": "picture",
+      "operator": "sound-and-picture-editor",
+      "responsibility": "Editor",
+      "purpose": "Let the real audio and its two transients carry the movement.",
+      "bindings": {
+        "edl": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "recording": {
+          "asset": "source-recording"
+        }
+      }
+    },
+    {
+      "id": "thumbnail",
+      "operator": "cover-designer",
+      "responsibility": "Art director",
+      "purpose": "Draw attention to the first knock with a crop of the recorded sound.",
+      "bindings": {
+        "brief": {
+          "stage": "direction",
+          "output": "coverBrief"
+        },
+        "recording": {
+          "asset": "source-recording"
+        }
+      }
+    },
+    {
+      "id": "review",
+      "operator": "listening-review",
+      "responsibility": "Producer",
+      "purpose": "Check the mix, time map, captions, artwork and listening interval before release.",
+      "bindings": {
+        "movie": {
+          "stage": "picture",
+          "output": "movie"
+        },
+        "captions": {
+          "stage": "picture",
+          "output": "captions"
+        },
+        "timeline": {
+          "stage": "picture",
+          "output": "timeline"
+        },
+        "edl": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "cover": {
+          "stage": "thumbnail",
+          "output": "cover"
+        },
+        "recording": {
+          "asset": "source-recording"
+        }
+      }
+    },
+    {
+      "id": "delivery",
+      "operator": "delivery-editor",
+      "responsibility": "Post-production",
+      "purpose": "Give the editor the release cut and the materials needed to reopen the edit.",
+      "bindings": {
+        "movie": {
+          "stage": "picture",
+          "output": "movie"
+        },
+        "captions": {
+          "stage": "picture",
+          "output": "captions"
+        },
+        "timeline": {
+          "stage": "picture",
+          "output": "timeline"
+        },
+        "cover": {
+          "stage": "thumbnail",
+          "output": "cover"
+        },
+        "evidence": {
+          "stage": "evidence",
+          "output": "evidence"
+        },
+        "direction": {
+          "stage": "direction",
+          "output": "edl"
+        },
+        "coverBrief": {
+          "stage": "direction",
+          "output": "coverBrief"
+        },
+        "story": {
+          "stage": "story",
+          "output": "story"
+        },
+        "review": {
+          "stage": "review",
+          "output": "review"
+        },
+        "brand": {
+          "asset": "brand"
+        },
+        "source": {
+          "asset": "source-recording"
+        },
+        "transcript": {
+          "asset": "transcript"
+        },
+        "notes": {
+          "asset": "field-notes"
+        }
+      }
+    }
+  ]
+}

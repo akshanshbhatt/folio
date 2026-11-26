@@ -1,0 +1,22 @@
+{
+  "type": "agent",
+  "model": "gemma3:4b",
+  "command": [
+    "node",
+    "../../tools/workflow/text-agent.mjs"
+  ],
+  "settings": {
+    "command": [
+      "ollama",
+      "run",
+      "{model}"
+    ],
+    "instruction": "Edit the supplied historical script. Retain the beat IDs and order for the existing storyboard. Return JSON with title and beats; every beat has id, voice, claims, and references. Copy each historical source URL and locator from the accepted claim entries in claims. Attribute the film-record account and distinguish the two hypothetical timing rates from archival evidence. Preserve the unresolved playback speed. Include no markdown.",
+    "roles": [
+      "claims",
+      "edit"
+    ],
+    "includeBrand": true,
+    "format": "json"
+  }
+}

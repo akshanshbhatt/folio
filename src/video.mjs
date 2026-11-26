@@ -7,6 +7,7 @@ import {exists,inside,probe,run} from './common.mjs';
 import {directedPlate} from './mediaplate.mjs';
 import {webPlate} from './webplate.mjs';
 import {progress} from './motion.mjs';
+import {cueState} from './cues.mjs';
 import {stage,figureBox} from './stage.mjs';
 
 export function samples(frames,fps,shot,captions,burn) {
@@ -16,6 +17,9 @@ export function samples(frames,fps,shot,captions,burn) {
   const start=Math.max(0,Math.floor((shot.motionStart || 0)*fps));
   const end=Math.min(frames-1,Math.ceil(((shot.motionStart || 0)+(shot.motion??2))*fps));
   for(let f=start;f<=end;f++) selected.add(f);
+  for(const action of shot.resolvedActions ?? []) {
+    for(let f=action.startFrame;f<=Math.min(frames-1,action.endFrame);f++) selected.add(f);
+  }
   if(shot.transition==='fade') for(let f=0;f<=Math.min(frames-1,Math.ceil(.35*fps));f++) selected.add(f);
   if(burn) for(const cue of captions) for(const v of [cue.start,cue.end]) selected.add(Math.min(frames-1,Math.max(0,Math.ceil(v*fps))));
   return [...selected].sort((a,b)=>a-b);
@@ -37,14 +41,19 @@ export async function encodeShot(o) {
   const tmp=o.output+'.'+randomUUID()+'.mp4';
   const {width,height,fps,shot,frames}=o;
   const box=figureBox(o.e.format==='short'),scale=width/(o.e.format==='short'?1080:1920);
-  const needsDirection=shot.camera || (shot.transition&&!['cut','match'].includes(shot.transition)) || o.plugins?.stage || o.plugins?.transition;
+  const needsDirection=shot.camera || (shot.component==='media' && shot.params.object) || shot.resolvedActions?.length || (shot.transition&&!['cut','match'].includes(shot.transition)) || o.plugins?.stage || o.plugins?.transition;
   const media=shot.component==='media'&&needsDirection
     ? await directedPlate(imageMedia(o.channel,shot.params),shot.params,Math.round(box.w*scale),Math.round(box.h*scale),fps,frames)
     : null;
   const sequence=samples(frames,fps,media?.moving?{...shot,continuous:true}:shot,o.cues,o.burn);
   let web,webImage,lastProgress;
   if(shot.component==='web') web=await webPlate(o.channel,shot,o.brand.theme,width/(o.e.format==='short'?1080:1920)*figureBox(o.e.format==='short').w);
-  const paint=stage({...o,draw:web?(ctx)=>ctx.drawImage(webImage,0,0,1000,820):(media?.draw||o.draw),duration:frames/fps});
+  let draw=o.draw;
+  if(web)draw=ctx=>ctx.drawImage(webImage,0,0,1000,820);
+  if(media)draw=shot.params.object
+    ? (ctx,state)=>state.drawObject(shot.params.object,()=>media.draw(ctx))
+    : media.draw;
+  const paint=stage({...o,draw,duration:frames/fps});
   const args=['-nostdin','-hide_banner','-loglevel','error','-y','-f','rawvideo','-pix_fmt','rgba','-s',width+'x'+height,'-framerate',String(fps),'-i','pipe:0'];
   const fastOverlay=shot.component==='media'&&!media;
   // Convert each authored picture once. The fps stage can reuse that YUV frame for a teaching hold.
@@ -77,8 +86,11 @@ export async function encodeShot(o) {
       const t=f/fps, sub=o.burn?o.cues.find(c=>t>=c.start&&t<c.end)?.text:'';
       if(web){
         const elapsed=t-(shot.motionStart||0);
-        const p=progress(shot.motion===0?Number(elapsed>=0):elapsed/(shot.motion??2),shot.curve);
-        if(p!==lastProgress||shot.continuous){webImage=await web.paint(p,t);lastProgress=p;}
+        const fraction=shot.motion===0?Number(elapsed>=0):Math.max(0,Math.min(1,elapsed/(shot.motion??2)));
+        const p=o.plugins?.curve ? o.plugins.curve(fraction) : progress(fraction,shot.curve);
+        if(p!==lastProgress||shot.continuous||shot.resolvedActions?.length){
+          webImage=await web.paint(p,t,cueState(shot,t));lastProgress=p;
+        }
       }
       if(media)await media.next();
       const frame=paint(t,sub).data();

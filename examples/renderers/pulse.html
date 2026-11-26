@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Two contacts</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #152631; }
+    main { width: 320px; height: 180px; position: relative; }
+    .rail { position: absolute; left: 40px; top: 87px; width: 240px; height: 6px; background: #607483; }
+    .contact { position: absolute; top: 65px; left: 60px; width: 50px; height: 50px;
+      border-radius: 50%; background: #bfcdd1; border: 6px solid #334e5b; }
+    .receiver { left: 210px; }
+    .pulse { background: #ff993f; border-color: #ffb65e; }
+  </style>
+</head>
+<body>
+  <main data-composition-id="contacts" data-width="320" data-height="180"
+        data-start="0" data-duration="{{shot.duration}}" data-fps="{{shot.fps}}">
+    <div class="rail"></div>
+    <div class="contact"></div>
+    <div class="contact receiver"></div>
+    <div id="pulse" class="clip contact receiver pulse" data-track-index="1"
+         data-start="{{cue.pulse.start}}" data-duration="{{cue.pulse.duration}}"></div>
+  </main>
+</body>
+</html>

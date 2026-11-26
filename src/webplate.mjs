@@ -17,11 +17,21 @@ export async function webPlate(channel,shot,theme,width){
     const page=await browser.newPage({viewport:{width:1000,height:820},deviceScaleFactor:Math.max(1,width/1000)});
     await page.route(/^https?:/,route=>route.abort());
     await page.goto(pathToFileURL(inside(channel,shot.params.file)).href);
-    const paint=async (p,t)=>{
-      await page.evaluate(async ({p,t,params,theme})=>{
+    const paint=async (p,t,directed)=>{
+      await page.evaluate(async ({p,t,params,theme,directed})=>{
         if(typeof window.drawPlate!=='function')throw Error('A web plate must expose drawPlate({p,time,params,theme})');
-        await window.drawPlate({p,time:t,params,theme});await document.fonts.ready;
-      },{p,t,params:shot.params,theme});
+        await window.drawPlate({p,time:t,params,theme,...directed});
+        for(const node of document.querySelectorAll('[data-folio-object]')) {
+          const id=node.getAttribute('data-folio-object');
+          if(!Object.hasOwn(directed.objects,id))throw Error('Undeclared HTML drawing object: '+id);
+          const object = directed.objects[id];
+          node.style.opacity=String(object.opacity);
+          for (const [name, value] of Object.entries(object.properties ?? {})) {
+            node.style.setProperty('--folio-' + name, String(value));
+          }
+        }
+        await document.fonts.ready;
+      },{p,t,params:shot.params,theme,directed});
       const pixels=await page.screenshot({type:'png',omitBackground:true});
       return loadImage(pixels);
     };

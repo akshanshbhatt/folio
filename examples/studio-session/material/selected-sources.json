@@ -1,0 +1,5 @@
+{
+  "sources": [{"id":"engineer","title":"Session construction notes","input":"notes","rights":"Original instructional material distributed with Foliofilm."}],
+  "claims": [{"id":"two-knocks","statement":"The two knock onsets in the source fixture are 780 milliseconds apart.","references":[{"source":"engineer","locator":"Field notes, third line","quote":"two synthesized knocks start 780 milliseconds apart"}]}],
+  "openQuestions":["Does the silence work as an editorial beat when auditioned on headphones?"]
+}

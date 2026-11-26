@@ -1,0 +1,90 @@
+{
+  "generation": "Kokoro v1.0 · af_bella · 1.0× · measured foreground reading",
+  "rate": 24000,
+  "samples": 1179478,
+  "mastering": {
+    "targetLufs": -17,
+    "peakCeilingDbtp": -2.3
+  },
+  "beats": [
+    {
+      "id": "count",
+      "startSample": 0,
+      "endSample": 255138,
+      "spans": [
+        {
+          "start": 0.2,
+          "end": 2.631625,
+          "text": "How long does a sneeze last on paper?"
+        },
+        {
+          "start": 2.781625,
+          "end": 10.33075,
+          "text": "The Library of Congress identifies forty-five frames of Fred Ott sneezing in a single photographic record."
+        }
+      ]
+    },
+    {
+      "id": "recover",
+      "startSample": 264738,
+      "endSample": 563965,
+      "spans": [
+        {
+          "start": 11.23075,
+          "end": 18.526333333333334,
+          "text": "In the Library’s moving-image catalog, the account of the viewing copy describes photographing the still image again."
+        },
+        {
+          "start": 18.676333333333332,
+          "end": 23.198541666666667,
+          "text": "That explains how a sequence on a page can become movement on a screen."
+        }
+      ]
+    },
+    {
+      "id": "clocks",
+      "startSample": 573565,
+      "endSample": 901681,
+      "spans": [
+        {
+          "start": 24.098541666666666,
+          "end": 26.159791666666667,
+          "text": "Let’s give our drawing two clocks."
+        },
+        {
+          "start": 26.309791666666666,
+          "end": 32.67570833333333,
+          "text": "Show every one of forty-five numbered cards for a fifteenth of a second, and the set lasts three seconds."
+        },
+        {
+          "start": 32.82570833333333,
+          "end": 37.270041666666664,
+          "text": "At thirty cards a second, exactly the same set lasts one and a half."
+        }
+      ]
+    },
+    {
+      "id": "limit",
+      "startSample": 911281,
+      "endSample": 1179478,
+      "spans": [
+        {
+          "start": 38.17004166666667,
+          "end": 40.14058333333333,
+          "text": "Which clock should we set for Ott?"
+        },
+        {
+          "start": 40.29058333333333,
+          "end": 45.7355,
+          "text": "These two catalog passages give us the pictures and a way to see them move."
+        },
+        {
+          "start": 45.8855,
+          "end": 48.84491666666667,
+          "text": "They leave the speed of our reconstruction open."
+        }
+      ]
+    }
+  ],
+  "referenceSha256": "763e6e1b14fdacac916c655d4f6afdb0eb674465c86c0c8d86d49640baf869a0"
+}

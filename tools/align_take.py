@@ -1,4 +1,4 @@
-"""Split a continuous, scripted take into Foliofilm recordings and sentence timings."""
+"""Split a continuous, scripted take into Foliofilm recordings with sentence and available word/phrase timings."""
 
 import argparse
 from array import array
@@ -131,7 +131,7 @@ def transcript_rows(data, seconds, automatic):
         previous = end
         tokens = words(text)
         if tokens:
-            rows.append((start, min(end, seconds), tokens))
+            rows.append((start, min(end, seconds), tokens, text.strip()))
     if not rows:
         raise ValueError("No time-stamped words found")
     return rows
@@ -139,7 +139,7 @@ def transcript_rows(data, seconds, automatic):
 
 def match_sentences(script, rows):
     reference = [word for _, _, tokens in script for word in tokens]
-    heard = [token for _, _, tokens in rows for token in tokens]
+    heard = [token for _, _, tokens, _ in rows for token in tokens]
     matcher = SequenceMatcher(None, reference, heard, autojunk=False)
     if matcher.ratio() < .82:
         raise ValueError(f"Take differs from the episode or its order ({matcher.ratio():.0%} word agreement)")
@@ -149,7 +149,7 @@ def match_sentences(script, rows):
     # A supplied transcript row must end at or before each sentence boundary.
     # A paragraph timestamp cannot locate an internal spoken pause.
     row_offsets = [0]
-    for _, _, tokens in rows:
+    for _, _, tokens, _ in rows:
         row_offsets.append(row_offsets[-1] + len(tokens))
     anchors = []
     pos = 0
@@ -186,7 +186,7 @@ def match_sentences(script, rows):
         begin = bisect_left(row_offsets, a)
         end = bisect_left(row_offsets, b) - 1
         spans.append({"shot": shot, "text": text, "start": rows[begin][0],
-                      "end": rows[end][1], "score": score})
+                      "end": rows[end][1], "score": score, "rows": rows[begin:end + 1]})
     return spans
 
 
@@ -261,7 +261,20 @@ def publish(target, pcm, spans, cuts, work):
             out.setparams((1, 2, RATE, 0, "NONE", "not compressed"))
             out.writeframes(pcm[begin * 2:end * 2])
         timing = work / (shot + ".json")
-        timing.write_text(json.dumps(times, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        timing_data = times
+        if any(len(span["rows"]) > 1 for span in group):
+            # Keep each measured boundary when the source has finer timing than
+            # the display sentences. ASR can extend a word into a cut pause.
+            detail = []
+            for span in group:
+                for start, stop, _, heard in span["rows"]:
+                    lo = max(0, round(start * RATE) - begin)
+                    hi = min(end - begin, round(stop * RATE) - begin)
+                    if hi <= lo:
+                        raise ValueError(f"Transcript row falls outside the cut for {shot}: {heard}")
+                    detail.append({"start": lo / RATE, "end": hi / RATE, "text": heard})
+            timing_data = {"spans": times, "words": detail}
+        timing.write_text(json.dumps(timing_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         files.extend((wav, timing))
     # Reserve the directory with exclusive mkdir after verification. Concurrent
     # importers and earlier takes cannot be replaced.

@@ -1,0 +1,11 @@
+{
+  "query": "Charles Musser Edison Motion Pictures 1890 1900 An Annotated Filmography",
+  "limit": 3,
+  "sources": [
+    {"id":"context","title":"Library of Congress, Centennial of Cinema Under Copyright Law","url":"https://blogs.loc.gov/loc/2012/10/centennial-of-cinema-under-copyright-law/","rights":"Selected factual catalog context. No photographs or video are reproduced."}
+  ],
+  "claims": [
+    {"id":"deposit-form","statement":"The Library describes the deposited material as still images on photographic paper.","references":[{"source":"context","quote":"still photographs printed on photographic paper","locator":"Paragraph on Edison's 1894 deposit"}]}
+  ],
+  "openQuestions":["Does any additional source establish projection speed for this exact material? A search result or book review alone does not establish it."]
+}

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "id": "history-desk-sources",
+  "stages": [
+    {
+      "id": "discovery",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "brief": "material/online.json"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "../../tools/workflow/research.py",
+          "discover"
+        ]
+      },
+      "outputs": {
+        "leads": {
+          "path": "leads.json",
+          "validate": "json"
+        }
+      }
+    },
+    {
+      "id": "context",
+      "useBrand": false,
+      "needs": [],
+      "inputs": {
+        "selection": "material/online.json"
+      },
+      "owner": {
+        "type": "command",
+        "version": "1",
+        "command": [
+          "python3",
+          "../../tools/workflow/research.py",
+          "collect"
+        ]
+      },
+      "outputs": {
+        "evidence": {
+          "path": "evidence.json",
+          "validate": "json"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "assets": {"project-brief": "brief.md"},
+  "operators": {
+    "illustrator": {
+      "description": "Draw two views of the same studio desk.",
+      "owner": {"type": "manual"},
+      "inputs": ["subject"], "outputs": {"board": "board.svg"}
+    },
+    "sound-editor": {
+      "description": "Record the room and then mute the microphone.",
+      "owner": {"type": "manual"},
+      "inputs": ["subject"], "outputs": {"take": "room.wav"}
+    },
+    "desk-review": {
+      "description": "Compare the board with the recording and write edit notes.",
+      "owner": {"type": "manual"},
+      "inputs": ["picture", "sound"],
+      "outputs": {"notes": {"path": "notes.md", "validate": "text"}}, "approval": true
+    }
+  }
+}

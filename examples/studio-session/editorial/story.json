@@ -1,0 +1,10 @@
+{
+  "title": "The space after the knock",
+  "beats": [
+    {"id":"question","intent":"Let the host ask why this take survived the edit.","from":"What made you keep that take?"},
+    {"id":"listen","intent":"Invite the listener to notice the gap before explaining it.","from":"Listen to the space after the knock.","claim":"two-knocks"},
+    {"id":"answer","intent":"Give the guest the last word after both sounds have played.","from":"You can hear the room answer."}
+  ],
+  "select":{"from":"question","through":"answer"},
+  "direction":{"coverMark":"firstKnock","picture":"Trace the recorded waveform across the cut. Bring up the two contact marks only as their sounds arrive."}
+}

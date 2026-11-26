@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "id": "room-and-mute",
+  "stages": [
+    {"id": "draw-the-desk", "operator": "illustrator", "purpose": "Make the switch position visible in both views.", "responsibility": "Illustrator", "bindings": {"subject": {"asset": "project-brief"}}},
+    {"id": "record-the-desk", "operator": "sound-editor", "purpose": "Capture room tone before and after muting.", "responsibility": "Location sound", "bindings": {"subject": {"asset": "project-brief"}}},
+    {"id": "compare-at-desk", "operator": "desk-review", "purpose": "Check whether the drawn mute switch changes on the audible cut.", "bindings": {"picture": {"stage": "draw-the-desk", "output": "board"}, "sound": {"stage": "record-the-desk", "output": "take"}}}
+  ]
+}

@@ -3,6 +3,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {ROOT,exists,inside} from './common.mjs';
 import {progress,camera} from './motion.mjs';
+import {cueState,applyCueCamera} from './cues.mjs';
 
 GlobalFonts.registerFromPath(join(ROOT,'assets/fonts/DMSerifText-Regular.ttf'),'DM Serif Text');
 GlobalFonts.registerFromPath(join(ROOT,'assets/fonts/DMSans.ttf'),'DM Sans');
@@ -58,7 +59,17 @@ export function stage({brand, e, shot, draw, width, height, duration, plugins = 
     ctx.rect(0, 0, 1000, 820);
     ctx.clip();
     (plugins.camera || camera)(ctx, shot.camera, p);
-    draw(ctx, {p, params: shot.params || {}, theme, time, duration, graphics: {createCanvas, Path2D, ImageData}});
+    const directed = cueState(shot,time);
+    if (shot.resolvedActions?.length) applyCueCamera(ctx,directed.camera);
+    const drawObject = (id,paint) => {
+      const object = directed.objects[id];
+      if (!Object.hasOwn(directed.objects,id)) throw Error(shot.id + ': undeclared drawing object ' + id);
+      if (object.opacity === 0) return;
+      ctx.save();
+      try { ctx.globalAlpha *= object.opacity; paint(ctx,object); }
+      finally { ctx.restore(); }
+    };
+    draw(ctx, {p, params: shot.params || {}, theme, time, duration, ...directed, drawObject, graphics: {createCanvas, Path2D, ImageData}});
     ctx.restore();
 
     const view = {theme, portrait, width: W, height: H, time};

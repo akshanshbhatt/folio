@@ -1,0 +1,15 @@
+{
+  "reviewer": "Example commissioning editor",
+  "decision": "accept",
+  "observations": [
+    "The opening identifies the photographic record; the next sentence attributes the reconstruction to the moving-image catalog.",
+    "The script introduces the two chosen clocks as a drawing, and the board labels that passage a timing experiment.",
+    "The storyboard requests numbered tiles and a schematic aperture. It requests no Library collection images."
+  ],
+  "historicalLimit": "A playback speed remains open. The two rates in the diagram are a mathematical comparison.",
+  "reviewedInputs": {
+    "script": "f9416c2ad099afdc2100275ab3e250d3734171cc3cdab5c10ba0a9b2cbafb9d5",
+    "board": "e88977a4c7b261f80f6dac927ea3ff20170efaf1af31bbdafe7a82ea3ca1e657",
+    "brand": "9669de9a2aa020a72a154a1ed9e32ae1dc778e35f1f483b50d3977802896acc4"
+  }
+}
