@@ -41,7 +41,7 @@ export default function draw(ctx, { p, params, theme }) {
 | `transition` | Select a transition by name. Channels can register extension modules in `brand.plugins`. |
 | `audioAfter` | Append a local audio clip. Supply `file`, `credit` and `rights`. Optional `gainDb` adjusts its level. |
 
-For an image or video, use the built-in `media` component and provide `params.file`, `params.credit` and `params.rights`. Paths are relative to the channel. For local HTML, the `web` component accepts the same fields and calls `window.drawPlate({p, time, params, theme})`. List additional local files in `params.dependencies`. Rendering HTML requires a Chromium-based browser. Set `FOLIOFILM_BROWSER` to its executable if needed.
+For an image or video, use the built-in `media` component and provide `params.file`, `params.credit` and `params.rights`. Paths are relative to the channel. For local HTML, the `web` component accepts the same fields and calls `window.drawPlate({p, time, params, theme})`. List additional local files in `params.dependencies`. Rendering HTML requires a Chromium-based browser. Set `FOLIO_BROWSER` to its executable if needed.
 
 ## Work with a writer
 

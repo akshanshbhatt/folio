@@ -1,4 +1,4 @@
-"""Split a continuous, scripted take into Foliofilm recordings with sentence and available word/phrase timings."""
+"""Split a continuous, scripted take into Folio recordings with sentence and available word/phrase timings."""
 
 import argparse
 from array import array

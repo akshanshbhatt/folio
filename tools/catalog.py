@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build or verify a portable, offline Foliofilm library from finished render bundles."""
+"""Build or verify a portable, offline Folio library from finished render bundles."""
 
 import argparse
 import csv
@@ -19,7 +19,7 @@ from urllib.parse import urlsplit
 from catalog_ui import ASSETS, clock, esc, movie, overview, runtime, url
 
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA = "foliofilm-offline-catalog-v1"
+SCHEMA = "folio-offline-catalog-v1"
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DESKTOP_METADATA = {".DS_Store", "Thumbs.db", "desktop.ini"}
 IMPORT = re.compile(r"""(?:from\s+|import\s*\(?\s*)['"](\.[^'"]+)['"]""")
@@ -118,7 +118,7 @@ def render_bundle(channel, renders, brand, slug, profile, full_decode, watched=N
     require(bundle.resolve().is_relative_to(renders), f"Bundle escaped render root: {slug}")
     files = inventory(bundle)
     require(
-        "receipt.json" in files, f"{slug} has no renderer receipt. Render it with the current Foliofilm CLI."
+        "receipt.json" in files, f"{slug} has no renderer receipt. Render it with the current Folio CLI."
     )
     native = read(files["receipt.json"])
     require(
@@ -172,7 +172,7 @@ def release_slots(channel, renders, brand):
 def verify(output, full_decode=False):
     members = inventory(output, strict_dirs=True)
     cat = read(output / "catalog.json")
-    require(cat.get("schema") == SCHEMA, "Output does not contain a Foliofilm catalog")
+    require(cat.get("schema") in (SCHEMA, "foliofilm-offline-catalog-v1"), "Output does not contain a Folio catalog")
     signed = cat["files"]
     require(set(members) == set(signed) | {"catalog.json"}, "Catalog contains missing or unrelated files")
     for name, expected in signed.items():
@@ -364,7 +364,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--channel", type=Path, help="Channel containing brand.json and episodes/")
     parser.add_argument(
-        "--renders", type=Path, default=Path("renders"), help="Root passed to foliofilm render --out"
+        "--renders", type=Path, default=Path("renders"), help="Root passed to folio render --out"
     )
     parser.add_argument("--output", type=Path, required=True, help="Dedicated directory for the offline site")
     parser.add_argument(
@@ -419,7 +419,7 @@ def main():
                     "Existing catalog belongs to a different channel",
                 )
                 prior = stamp(output / "catalog.json")
-        with tempfile.TemporaryDirectory(prefix=".foliofilm-collect-", dir=output.parent) as temp:
+        with tempfile.TemporaryDirectory(prefix=".folio-collect-", dir=output.parent) as temp:
             stage, backup = Path(temp) / "new", Path(temp) / "old"
             stage.mkdir()
             current = build(stage, args)

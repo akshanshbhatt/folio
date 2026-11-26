@@ -1,6 +1,6 @@
 # Asset notices
 
-Foliofilm includes two typefaces under the SIL Open Font License, Version 1.1. Their original notices and full license texts accompany the font files.
+Folio includes two typefaces under the SIL Open Font License, Version 1.1. Their original notices and full license texts accompany the font files.
 
 | Asset | Attribution | License |
 | --- | --- | --- |

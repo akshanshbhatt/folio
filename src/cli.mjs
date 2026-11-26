@@ -18,7 +18,7 @@ async function main(){
   channel:{type:'string'},shot:{type:'string'},profile:{type:'string',default:'review'},subs:{type:'string',default:'sidecar'},out:{type:'string'},cache:{type:'string'},recordings:{type:'string'},'voice-worker':{type:'string'},quiet:{type:'boolean'},help:{type:'boolean',short:'h'},file:{type:'string'},provider:{type:'string'}
 }});
   const channel=resolve(o.channel || join(ROOT,'channels/starter')),out=resolve(o.out||'renders'),cache=resolve(o.cache||'.folio');
-  if(!action||o.help){console.log('foliofilm workflow --help (design, plan, run and review a production)\nfoliofilm list | validate [id] | render <id> | proof <id> --shot <id> | batch | verify <bundle> | schedule | status | impact <source> | init <path> | brief <idea> | draft <brief.json>\n--channel PATH  --profile review|master  --subs sidecar|burn|both|none\n--out PATH  --cache PATH  --recordings PATH  --voice-worker CONFIG.json');return;}
+  if(!action||o.help){console.log('folio workflow --help (design, plan, run and review a production)\nfolio list | validate [id] | render <id> | proof <id> --shot <id> | batch | verify <bundle> | schedule | status | impact <source> | init <path> | brief <idea> | draft <brief.json>\n--channel PATH  --profile review|master  --subs sidecar|burn|both|none\n--out PATH  --cache PATH  --recordings PATH  --voice-worker CONFIG.json');return;}
   if(action==='init'||action==='brief'||action==='draft'||action==='schedule'||action==='status'||action==='impact'){
     const {editorial}=await import('./editorial.mjs');await editorial({action,id,channel,out,o});return;
   }
@@ -33,7 +33,7 @@ async function main(){
   if(action==='list'){for(const [key,e] of db) console.log(e.format.padEnd(5),key,e.title);return;}
   if(id&&!db.has(id)) throw Error('Unknown episode: '+id);
   if(action==='validate'){for(const e of id?[db.get(id)]:db.values()) validate(e,channel);console.log('Validated '+(id?1:db.size)+' episode(s)');return;}
-  if(action==='render'&&!id) throw Error('Supply an episode id. See foliofilm list.');
+  if(action==='render'&&!id) throw Error('Supply an episode id. See folio list.');
   if(!['render','batch'].includes(action)) throw Error('Unknown command: '+action);
   for(const e of action==='batch'?db.values():[db.get(id)]) console.log(await render({channel,e,brand,out,cache,profile:o.profile,subs:o.subs,recordings:o.recordings,voiceWorker:o['voice-worker'],quiet:o.quiet,trackDefinitions:true}));
 }

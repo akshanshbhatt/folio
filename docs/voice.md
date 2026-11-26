@@ -1,6 +1,6 @@
 # Supply narration
 
-Foliofilm accepts a WAV for each shot, a local Kokoro installation, or a speech worker of your own. The renderer measures the resulting audio to place captions and animation cues. The shot’s `voice` field supplies the written narration.
+Folio accepts a WAV for each shot, a local Kokoro installation, or a speech worker of your own. The renderer measures the resulting audio to place captions and animation cues. The shot’s `voice` field supplies the written narration.
 
 ## Use recorded takes
 

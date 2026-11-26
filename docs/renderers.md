@@ -1,6 +1,6 @@
 # External visual renderers
 
-Foliofilm can send an authored scene to HyperFrames or Blender and use its rendered MP4 as the picture in a narrated shot. A third adapter accepts a local movie or still from a camera, drawing program, or video generator. Foliofilm can also use a compatible local media file directly in a `media` shot.
+Folio can send an authored scene to HyperFrames or Blender and use its rendered MP4 as the picture in a narrated shot. A third adapter accepts a local movie or still from a camera, drawing program, or video generator. Folio can also use a compatible local media file directly in a `media` shot.
 
 ## Run a renderer workflow
 
@@ -13,15 +13,15 @@ node src/cli.mjs workflow run examples/renderers/workflow.json --stage extract
 node src/cli.mjs workflow status examples/renderers/workflow.json
 ```
 
-The `contacts` and `slider` stages report their silent plates at `stages[].artifacts.video.path`. The finished cuts expose the voiced film under `artifacts.movie` alongside captions and timing. The `extract` stage demonstrates a trim of the HTML plate. Running the workflow without `--stage` builds both cuts. The example's relative adapter command assumes the repository layout. In your own workflow, use the installed `foliofilm-visual` executable or an executable path appropriate for your checkout. [Example workflow](../examples/renderers/workflow.json)
+The `contacts` and `slider` stages report their silent plates at `stages[].artifacts.video.path`. The finished cuts expose the voiced film under `artifacts.movie` alongside captions and timing. The `extract` stage demonstrates a trim of the HTML plate. Running the workflow without `--stage` builds both cuts. The example's relative adapter command assumes the repository layout. In your own workflow, use the installed `folio-visual` executable or an executable path appropriate for your checkout. [Example workflow](../examples/renderers/workflow.json)
 
 All adapters use FFmpeg and FFprobe on the local PATH. Install the optional tool for the scenes you produce.
 
 | Scene | Local renderer | Adapter command |
 | --- | --- | --- |
-| HTML composition | HyperFrames CLI and its supported headless Chromium runtime | `foliofilm-visual hyperframes` |
-| Blender project or scene-building script | Blender executable | `foliofilm-visual blender` |
-| Existing movie or still image | FFmpeg | `foliofilm-visual import` |
+| HTML composition | HyperFrames CLI and its supported headless Chromium runtime | `folio-visual hyperframes` |
+| Blender project or scene-building script | Blender executable | `folio-visual blender` |
+| Existing movie or still image | FFmpeg | `folio-visual import` |
 
 We tested HyperFrames **0.9.97** and Blender **4.5.11 LTS**. To pin the HTML renderer locally, install `hyperframes@0.9.97` in your tool directory and set `FOLIO_HYPERFRAMES_BIN` to its executable. `FOLIO_BLENDER_BIN` can point at the binary inside an installed Blender app. You can also specify `settings.executable` for either renderer. Each call runs a local CLI. Use local composition assets to keep the render self-contained. The example needs no account, remote script, or stock image. [HyperFrames CLI](https://hyperframes.app/docs/5-packages/cli) · [Blender background rendering](https://docs.blender.org/manual/en/latest/advanced/command_line/render.html)
 
@@ -38,14 +38,14 @@ A workflow command passes a JSON request over stdin. From a terminal, `--request
 ```
 
 ```sh
-foliofilm-visual hyperframes --request contacts-request.json
+folio-visual hyperframes --request contacts-request.json
 ```
 
-In a checkout you can substitute `node adapters/visual.mjs` for `foliofilm-visual`. All three adapters verify stream dimensions and duration before publishing. An existing standalone output is preserved. Workflow runs use fresh output paths for new revisions.
+In a checkout you can substitute `node adapters/visual.mjs` for `folio-visual`. All three adapters verify stream dimensions and duration before publishing. An existing standalone output is preserved. Workflow runs use fresh output paths for new revisions.
 
 ## Hand off measured action times
 
-Pass a Foliofilm `timeline.json` as `inputs.cues`. Set `settings.shot` to the shot ID when the timeline contains multiple shots. The standalone request uses a small resolved fixture. The workflow instead compiles the timing from `performance.wav`, `alignment.json` and `direction.json`. A proof rendered from a recording supplies the same interface. New speech can change the resolved times; list the timeline as an input to make the workflow rebuild its visual. The output must match the shot's total frame count and duration.
+Pass a Folio `timeline.json` as `inputs.cues`. Set `settings.shot` to the shot ID when the timeline contains multiple shots. The standalone request uses a small resolved fixture. The workflow instead compiles the timing from `performance.wav`, `alignment.json` and `direction.json`. A proof rendered from a recording supplies the same interface. New speech can change the resolved times; list the timeline as an input to make the workflow rebuild its visual. The output must match the shot's total frame count and duration.
 
 In a HyperFrames composition, numeric tokens bind named actions to native clip timing or to your own local animation code.
 
@@ -60,7 +60,7 @@ The example turns on a light for the cue interval. On its 24 fps clock, frame 5 
 
 For Blender, provide `inputs.scene` as a packed `.blend` or a trusted scene-building `.py`. A script can read the selected shot from the path in `FOLIO_CUES_FILE`. Add `scene.frame_start` to the zero-based cue frame before keyframing a Blender property. The example reads the numeric `position` property and its destination from the `slide` cue and uses native Blender interpolation between those positions. The adapter preserves the scene's camera, render settings, frame range and frame rate, renders a temporary PNG sequence, and encodes a silent H.264 MP4. Each numbered frame is included. For unpacked images and other dependencies, use the same role-to-path mapping and preserve their relative paths. [Blender scene](../examples/renderers/slider.py)
 
-The common handoff carries timing, object definitions and action data. The external scene defines appearance, camera behavior and interpolation. A flattened MP4 contains the resulting pixels. To change the motion or a camera inside that image, edit the external scene and render it again. Foliofilm can still composite, position, caption and narrate the resulting plate.
+The common handoff carries timing, object definitions and action data. The external scene defines appearance, camera behavior and interpolation. A flattened MP4 contains the resulting pixels. To change the motion or a camera inside that image, edit the external scene and render it again. Folio can still composite, position, caption and narrate the resulting plate.
 
 ## Bring your own generated media
 

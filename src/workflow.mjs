@@ -329,7 +329,7 @@ function exportFiles(w, stage, row, destination, options) {
   const rel = relative(realpathSync(w.state), parent);
   need(rel === '..' || rel.startsWith('..' + sep) || isAbsolute(rel), 'Choose an export directory outside workflow state');
   mkdirSync(parent, { recursive: true });
-  const temp = mkdtempSync(join(parent, '.foliofilm-export-'));
+  const temp = mkdtempSync(join(parent, '.folio-export-'));
   let reserved = false;
   try {
     for (const [role, artifact] of entries(row.artifacts)) {
@@ -408,7 +408,7 @@ export async function workflowCli(argv) {
     stage: { type: 'string' }, dir: { type: 'string' }, revision: { type: 'string' }, role: { type: 'string' }, file: { type: 'string' }, state: { type: 'string' }, help: { type: 'boolean', short: 'h' },
   } });
   if (values.help || !positionals.length) {
-    console.log('foliofilm workflow design --help\nfoliofilm workflow plan|graph|status|run|rerun|approve|override|release|export WORKFLOW.json [--stage ID] [--revision UUID] [--dir NEW_DIRECTORY] [--role ROLE --file FILE] [--state DIRECTORY]');
+    console.log('folio workflow design --help\nfolio workflow plan|graph|status|run|rerun|approve|override|release|export WORKFLOW.json [--stage ID] [--revision UUID] [--dir NEW_DIRECTORY] [--role ROLE --file FILE] [--state DIRECTORY]');
     return;
   }
   need(positionals.length === 2, 'Supply one action and one workflow manifest');

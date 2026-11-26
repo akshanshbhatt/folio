@@ -27,7 +27,7 @@ Open `listening-session.zip` from the export directory. It contains the cut, Web
 
 ## Change a decision
 
-Edit the [story beats](editorial/story.json) and submit the file again with the same override command. The director uses transcript text and source times to generate a picture edit and cover brief. Changing the story makes dependent stages eligible for a new run and a fresh review. A designer can also supply their own cover by running `workflow override` on the `thumbnail` stage with a PNG. Foliofilm preserves that handoff until the producer releases it.
+Edit the [story beats](editorial/story.json) and submit the file again with the same override command. The director uses transcript text and source times to generate a picture edit and cover brief. Changing the story makes dependent stages eligible for a new run and a fresh review. A designer can also supply their own cover by running `workflow override` on the `thumbnail` stage with a PNG. Folio preserves that handoff until the producer releases it.
 
 The [manifest](workflow.json) declares the production roles. The [brand](brand.json) supplies the palette, audio treatment and cover constraints. The [transcript](material/transcript.json) keeps the speakers and actual positions of the knocks. The general edit adapter accepts an ordered list of source selects, with audio and picture from the same file or with a separately rendered picture. Each example-specific choice is visible in the [direction adapter](direct.py).
 

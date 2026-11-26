@@ -21,7 +21,7 @@ if (q.settings.touchCopy) writeFileSync(q.inputs.from,'changed inside provider')
 `;
 
 function setup(t) {
-  const root = realpathSync(mkdtempSync(join(tmpdir(), 'foliofilm-workflow-'))), manifest = join(root, 'flow.json');
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'folio-workflow-'))), manifest = join(root, 'flow.json');
   t.after(() => rmSync(root, { recursive: true, force: true }));
   write(join(root, 'brand.json'), { name: 'Test' }); write(join(root, 'worker.mjs'), writer);
   write(join(root, 'topic.txt'), 'sound'); write(join(root, 'note.txt'), 'first manual note');

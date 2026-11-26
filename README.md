@@ -1,10 +1,10 @@
-# Foliofilm
+# Folio
 
-Foliofilm is an open-source video production workflow engine. Build a workflow once, then decide who does each job on a given film. A creator can write the story, ask an agent to research it and hand individual shots to an animator. The project records those choices alongside the material they produced. A new take can move a camera cue. A new source can reopen a script review. An artist's replacement cut stays under their control.
+Folio is an open-source video production workflow engine. Build a workflow once, then decide who does each job on a given film. A creator can write the story, ask an agent to research it and hand individual shots to an animator. The project records those choices alongside the material they produced. A new take can move a camera cue. A new source can reopen a script review. An artist's replacement cut stays under their control.
 
 A project can begin with an interview recording, a history question, a storyboard or finished footage. Reuse its stages and brand rules across a series. The CLI reads ordinary files that you can edit, diff and keep with the original footage.
 
-![Foliofilm production architecture showing creator, brand, owners, handoffs, picture, sound and delivery](docs/diagrams/production.svg)
+![Folio production architecture showing creator, brand, owners, handoffs, picture, sound and delivery](docs/diagrams/production.svg)
 
 [Read the architecture and an example revision](docs/architecture.md)
 
@@ -42,7 +42,7 @@ Open the movie and cover at the paths in the output. The [interview walkthrough]
 
 Every stage names its inputs, outputs and owner. Set a stage to `manual` to wait for a file, `command` to run a program, or `agent` to use a model-backed adapter. Each agent can have its own model, instructions and provider command. The included client supports Anthropic, Google Gemini and OpenAI. A producer can run a single branch, inspect its artifacts, request another pass, or take over a stage. A review gate belongs to the exact revision someone approved. Independent stages can share a brand file or opt out of it. [Workflow format and commands](docs/workflows.md) · [Set a model for each stage](docs/models.md)
 
-For picture, choose how much control the source exposes. A native component can animate an individual object. An authored HTML composition or Blender scene can drive its own objects from Foliofilm's resolved cue times. A supplied movie can be trimmed, edited and captioned. Its internal objects remain editable in the original tool. An exported clip from a video-generation service uses the media input. A direct service call requires a configured adapter. [Renderer contracts](docs/renderers.md)
+For picture, choose how much control the source exposes. A native component can animate an individual object. An authored HTML composition or Blender scene can drive its own objects from Folio's resolved cue times. A supplied movie can be trimmed, edited and captioned. Its internal objects remain editable in the original tool. An exported clip from a video-generation service uses the media input. A direct service call requires a configured adapter. [Renderer contracts](docs/renderers.md)
 
 The current interface is a local CLI. The architecture describes where a graphical timeline, collaborative review, multitrack editor interchange and hosted workers would attach. The default workflows run without model credentials.
 

@@ -158,7 +158,7 @@ export async function designWorkflow({brief,catalog,proposal,writer,out}) {
   // The runner resolves paths beside the manifest. Validate a private sibling,
   // then publish the finished file with an exclusive hard link, including if
   // another designer chose the same destination while the writer was running.
-  const temp=join(root,'.foliofilm-design-'+randomUUID()+'.json'), fd=openSync(temp,'wx',0o600);
+  const temp=join(root,'.folio-design-'+randomUUID()+'.json'), fd=openSync(temp,'wx',0o600);
   try {
     try { writeFileSync(fd,JSON.stringify(spec,null,2)+'\n'); } finally { closeSync(fd); }
     const checked=await executeWorkflow('plan',temp);
@@ -174,7 +174,7 @@ export async function workflowDesignCli(argv) {
   const {values}=parseArgs({args:argv,options:Object.fromEntries(['brief','catalog','proposal','writer','out'].map(key=>[key,{type:'string'}])
     .concat([['help',{type:'boolean',short:'h'}]]))});
   if (values.help) {
-    console.log('foliofilm workflow design --brief BRIEF.md --catalog CATALOG.json (--proposal PLAN.json | --writer WRITER.json) --out NEW-WORKFLOW.json');
+    console.log('folio workflow design --brief BRIEF.md --catalog CATALOG.json (--proposal PLAN.json | --writer WRITER.json) --out NEW-WORKFLOW.json');
     return;
   }
   console.log(JSON.stringify(await designWorkflow(values),null,2));

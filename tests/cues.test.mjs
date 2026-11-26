@@ -71,7 +71,7 @@ const html='<!doctype html><style>*{margin:0}#lamp{position:absolute;left:730px;
 const canvas='export default function draw(ctx,{objects,actions,camera,drawObject}){'+
   'if(!objects.lamp||!camera.focus||!actions["light-lamp"])throw Error("missing native cue state");'+
   'drawObject("lamp",()=>{ctx.fillStyle="red";ctx.fillRect(730,390,40,40)})}';
-const browser=[process.env.FOLIOFILM_BROWSER,'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+const browser=[process.env.FOLIO_BROWSER || process.env.FOLIOFILM_BROWSER,'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge','/Applications/Chromium.app/Contents/MacOS/Chromium',
   '/usr/bin/chromium','/usr/bin/google-chrome','/usr/bin/chromium-browser'].some(file=>file && existsSync(file));
 function pixel(path,t,x,y) {
@@ -83,7 +83,7 @@ const red=([r,g,b])=>r>190&&g<60&&b<60;
 for(const component of ['panel','web'])test(component+' delivers the reveal and camera in the encoded movie, sidecar mode', {
   skip:component==='web'&&!browser?'No local browser installed':false
 },async t=>{
-  const dir=mkdtempSync(join(tmpdir(),'foliofilm-directed-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
+  const dir=mkdtempSync(join(tmpdir(),'folio-directed-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
   const channel=join(dir,'channel'),cache=join(dir,'cache'),out=join(dir,'out'),recordings=join(dir,'takes');
   const brand=json(join(ROOT,'channels/starter/brand.json')),shot={...testShot(),heading:'Lamp',direction:'Read the switch.',
     component,motion:0,lead:.1,hold:.3,refs:['ref']};
@@ -113,7 +113,7 @@ for(const component of ['panel','web'])test(component+' delivers the reveal and 
 });
 
 test('speech workers measure quoted clips using their actual sample counts and retain full caption sentences',async t=>{
-  const dir=mkdtempSync(join(tmpdir(),'foliofilm-cue-voice-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
+  const dir=mkdtempSync(join(tmpdir(),'folio-cue-voice-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
   const worker=join(dir,'worker.mjs'),config=join(dir,'config.json');
   write(worker,`import {writeFileSync} from 'node:fs';
     import {createInterface} from 'node:readline';

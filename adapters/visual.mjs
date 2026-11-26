@@ -151,7 +151,7 @@ function importMedia({source, settings, output, cues}) {
 function main() {
   const [kind, flag, filename, ...extra] = process.argv.slice(2);
   if (kind === '--help' || kind === '-h') {
-    console.log('Usage: foliofilm-visual hyperframes|blender|import [--request FILE.json]\n' +
+    console.log('Usage: folio-visual hyperframes|blender|import [--request FILE.json]\n' +
       'Read a workflow request from stdin or a file. Set outputs.video to a new MP4 path.');
     return;
   }

@@ -67,7 +67,7 @@ test('unknown bindings, runtime overrides, dependency errors, duplicate JSON key
   const invalid=async (change,pattern)=>{
     const copy=structuredClone(plan);change(copy,copy.stages[0]);write(args.proposal,copy);
     await assert.rejects(designWorkflow(args),pattern);
-    assert.ok(!existsSync(args.out));assert.ok(!readdirSync(root).some(p=>p.startsWith('.foliofilm-design')));
+    assert.ok(!existsSync(args.out));assert.ok(!readdirSync(root).some(p=>p.startsWith('.folio-design')));
   };
   for(const [key,value] of Object.entries({owner:{type:'agent'},model:'invented',settings:{},command:['node'],outputs:{board:'/tmp/else'}}))
     await invalid((p,s)=>s[key]=value,/Unknown proposal stage field/);

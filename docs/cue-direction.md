@@ -59,7 +59,7 @@ The legacy array of timed rows also works. Use grouped caption spans plus separa
 
 For a continuous performance, the take importer splits the audio and shifts the supplied word and phrase times to the corresponding shot. It retains sentence display text separately. For sentence-only transcripts it continues to write the compact array format. [Recording import](voice.md#use-recorded-takes)
 
-With the built-in voice or a custom speech worker, Foliofilm splits the spoken sentence at selected quote boundaries and synthesizes each resulting phrase. The measured PCM sample counts locate each generated clip. These boundaries include any quiet onset or release in the provider's audio. Short fragments can alter a synthesizer's phrasing. Use a complete phrase or a continuous recorded performance with marked internal points when natural delivery across that boundary matters. For an inside-sentence cue in a sentence with a separate pronunciation override, use recorded timings. Explicit named marks require a measured take.
+With the built-in voice or a custom speech worker, Folio splits the spoken sentence at selected quote boundaries and synthesizes each resulting phrase. The measured PCM sample counts locate each generated clip. These boundaries include any quiet onset or release in the provider's audio. Short fragments can alter a synthesizer's phrasing. Use a complete phrase or a continuous recorded performance with marked internal points when natural delivery across that boundary matters. For an inside-sentence cue in a sentence with a separate pronunciation override, use recorded timings. Explicit named marks require a measured take.
 
 ## Draw the directed object
 

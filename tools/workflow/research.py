@@ -36,7 +36,7 @@ class VisibleText(HTMLParser):
 def fetch(url):
     if urlparse(url).scheme not in {"http", "https"}:
         raise ValueError("Select an HTTP(S) address or supply a declared local input")
-    request = Request(url, headers={"User-Agent": "Foliofilm-research/1.0"})
+    request = Request(url, headers={"User-Agent": "Folio-research/1.0"})
     with urlopen(request, timeout=25) as response:
         raw = response.read(LIMIT + 1)
         if len(raw) > LIMIT:

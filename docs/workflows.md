@@ -46,7 +46,7 @@ const words = note ? note.split(/\s+/u).length : 0;
 writeFileSync(job.outputs.report, String(words) + '\n');
 ```
 
-Write a note in the same directory as `note.txt`. From the Foliofilm checkout, substitute that directory for `./interview` in the commands below. A plan displays the selected dependency order without creating run state.
+Write a note in the same directory as `note.txt`. From the Folio checkout, substitute that directory for `./interview` in the commands below. A plan displays the selected dependency order without creating run state.
 
 ```sh
 node src/cli.mjs workflow plan ./interview/workflow.json
@@ -132,6 +132,6 @@ node src/cli.mjs workflow run ./interview/workflow.json --stage count
 
 ## Local state
 
-The default state directory is under `.folio/workflows/` alongside the workflow. Foliofilm’s Git ignore rules cover this directory. For a project outside this checkout, add `.folio/` to that project’s ignore rules. Use the same `--state DIRECTORY` on each command when keeping state elsewhere. A manifest’s absolute location and workflow ID identify its namespace.
+The default state directory is under `.folio/workflows/` alongside the workflow. Folio’s Git ignore rules cover this directory. For a project outside this checkout, add `.folio/` to that project’s ignore rules. Use the same `--state DIRECTORY` on each command when keeping state elsewhere. A manifest’s absolute location and workflow ID identify its namespace.
 
 Each stage keeps versioned output files and receipts. Concurrent commands for a workflow serialize publication through a lock. `plan` and `status` can read the current state during execution. Private state contains work in progress, program logs and earlier revisions. Use `export` to give someone only the accepted files of a stage.

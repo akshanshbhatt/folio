@@ -11,7 +11,7 @@ const paths=[
 ];
 // The browser is dedicated to the local production and starts with a temporary profile.
 export async function webPlate(channel,shot,theme,width){
-  const executablePath=process.env.FOLIOFILM_BROWSER || paths.find(exists);
+  const executablePath=process.env.FOLIO_BROWSER || process.env.FOLIOFILM_BROWSER || paths.find(exists);
   const browser=await chromium.launch({executablePath,headless:true});
   try{
     const page=await browser.newPage({viewport:{width:1000,height:820},deviceScaleFactor:Math.max(1,width/1000)});

@@ -1,4 +1,4 @@
-digraph Foliofilm {
+digraph Folio {
   graph [rankdir=TB, bgcolor="#f8fafb", pad=".36", nodesep=".24", ranksep=".38", fontname="Helvetica", splines=polyline];
   node [shape=box, style="rounded,filled", color="#b7c4cf", fillcolor="#ffffff", fontcolor="#192f3c", fontname="Helvetica", fontsize=14, margin=".20,.14"];
   edge [arrowsize=.65, color="#596e7a", penwidth=1.3];

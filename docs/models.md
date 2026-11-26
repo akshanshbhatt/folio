@@ -1,6 +1,6 @@
 # Use a model for a stage or workflow design
 
-Foliofilm includes an optional HTTP client for Anthropic, Google and OpenAI. Choose the provider in the command and the model in the stage’s `owner.model` or the workflow designer’s `writer.model`. Running that command sends the selected prompt and material to the provider’s API and can incur charges on your account.
+Folio includes an optional HTTP client for Anthropic, Google and OpenAI. Choose the provider in the command and the model in the stage’s `owner.model` or the workflow designer’s `writer.model`. Running that command sends the selected prompt and material to the provider’s API and can incur charges on your account.
 
 | Command argument | API | Credential environment variable |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
-# Foliofilm architecture
+# Folio architecture
 
-Foliofilm is a local production workflow engine for video creators. Its value is continuity of creative control from an idea or recording to a finished release. A person can change the story, replace a take, work with a different artist or delegate a single stage to an agent. Those choices should survive the next render.
+Folio is a local production workflow engine for video creators. Its value is continuity of creative control from an idea or recording to a finished release. A person can change the story, replace a take, work with a different artist or delegate a single stage to an agent. Those choices should survive the next render.
 
 ![Production architecture from a creator and brand through human, agent and tool stages to an approved delivery](diagrams/production.svg)
 
@@ -62,14 +62,14 @@ Two identical lines may serve different dramatic purposes. A missing or ambiguou
 
 ## Product boundary
 
-Foliofilm coordinates tools and files. Detailed editing depends on what each adapter can read and write. A workflow can call a service via a creator-configured command, which runs with the creator's permissions. The service determines its usage, credentials and cost.
+Folio coordinates tools and files. Detailed editing depends on what each adapter can read and write. A workflow can call a service via a creator-configured command, which runs with the creator's permissions. The service determines its usage, credentials and cost.
 
 The [README](../README.md) identifies the runnable paths. A graphical editor, collaborative review across users, bidirectional multitrack editor interchange, and hosted workers with provider budgets are future work. Publishing to a public platform is a separate, explicit integration.
 
 ## What to adopt and what to build
 
-OpenFilm already lets a person and a coding agent edit the same film. It offers a screening view, a canvas, a multitrack timeline and export to desktop editors. For a creator whose main problem is hands-on timeline editing, it is a strong starting point. A Foliofilm stage can receive a cut from that editor today. A live, bidirectional project bridge would be a separate integration. [OpenFilm project and editor capabilities](https://github.com/openfilm/openfilm)
+OpenFilm already lets a person and a coding agent edit the same film. It offers a screening view, a canvas, a multitrack timeline and export to desktop editors. For a creator whose main problem is hands-on timeline editing, it is a strong starting point. A Folio stage can receive a cut from that editor today. A live, bidirectional project bridge would be a separate integration. [OpenFilm project and editor capabilities](https://github.com/openfilm/openfilm)
 
-HyperFrames has its own compositing model, nested HTML compositions and render CLI. Foliofilm supplies selected assets and measured cue positions, invokes that renderer, and receives the resulting plate. An artist keeps the HTML source. Remotion similarly exposes reusable React compositions through props and schemas. A project can invoke an existing Remotion render command. The bundled, tested external scene adapters are HyperFrames and Blender. [HyperFrames compositions](https://hyperframes.app/docs/2-concepts/1-compositions) · [Remotion parameterized videos](https://www.remotion.dev/docs/parameterized-rendering) · [Foliofilm renderer examples](renderers.md)
+HyperFrames has its own compositing model, nested HTML compositions and render CLI. Folio supplies selected assets and measured cue positions, invokes that renderer, and receives the resulting plate. An artist keeps the HTML source. Remotion similarly exposes reusable React compositions through props and schemas. A project can invoke an existing Remotion render command. The bundled, tested external scene adapters are HyperFrames and Blender. [HyperFrames compositions](https://hyperframes.app/docs/2-concepts/1-compositions) · [Remotion parameterized videos](https://www.remotion.dev/docs/parameterized-rendering) · [Folio renderer examples](renderers.md)
 
-Foliofilm's design bet is that the handoffs *between* those tools deserve their own project format. An editor can ask which source supports a spoken claim, which clips use an old take, who approved a cover, and which branch needs another pass. Review and override are core operations because two people can reasonably make different films from the same evidence. Wider interoperability should preserve media references and editorial decisions in a format a working editor can reopen. OpenTimelineIO provides a candidate interchange layer for cuts and timing. [OpenTimelineIO](https://github.com/OpenTimelineIO/OpenTimelineIO)
+Folio's design bet is that the handoffs *between* those tools deserve their own project format. An editor can ask which source supports a spoken claim, which clips use an old take, who approved a cover, and which branch needs another pass. Review and override are core operations because two people can reasonably make different films from the same evidence. Wider interoperability should preserve media references and editorial decisions in a format a working editor can reopen. OpenTimelineIO provides a candidate interchange layer for cuts and timing. [OpenTimelineIO](https://github.com/OpenTimelineIO/OpenTimelineIO)

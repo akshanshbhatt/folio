@@ -1,4 +1,4 @@
-"""Persistent, offline JSONL speech worker for Foliofilm."""
+"""Persistent, offline JSONL speech worker for Folio."""
 
 import json
 import os
@@ -17,9 +17,9 @@ MODELS = ROOT / ".voice" / "models"
 
 def load_model():
     options = ort.SessionOptions()
-    options.intra_op_num_threads = int(os.environ.get("FOLIOFILM_VOICE_THREADS", "3"))
+    options.intra_op_num_threads = int(os.environ.get("FOLIO_VOICE_THREADS", os.environ.get("FOLIOFILM_VOICE_THREADS", "3")))
     if options.intra_op_num_threads < 1:
-        raise ValueError("FOLIOFILM_VOICE_THREADS must be at least 1")
+        raise ValueError("FOLIO_VOICE_THREADS must be at least 1")
     options.inter_op_num_threads = 1
     options.log_severity_level = 3
     options.add_session_config_entry("session.intra_op.allow_spinning", "0")
